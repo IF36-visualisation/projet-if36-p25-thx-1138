@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Nous sommes des étudiants de l'Université de Technologie de Troyes et réalisons ce projet dans le cadre de l’UE **IF36** (intitulée : Visualiser des données). Ce projet nous permet de découvrir et d’acquérir des compétences en **data visualisation**, ainsi que de consolider nos connaissances en **R** à travers l’analyse de données issues des Jeux Olympiques.  
+Nous sommes des étudiants de l'Université de Technologie de Troyes et réalisons ce projet dans le cadre de l’UE **IF36** (intitulée : Visualiser des données). Ce projet nous permet de découvrir et d’acquérir des compétences en **data visualisation**, ainsi que de consolider nos connaissances en **R** à travers l’analyse de données issues des Jeux Olympiques.
 
 L'objectif de notre étude est d’analyser les données des Jeux Olympiques entre **1896 et 2020** afin d’identifier des tendances et répondre à différentes questions. Nous nous interrogerons notamment sur l’impact du pays hôte sur les performances des athlètes nationaux, la répartition géographique des médaillés ou encore la domination de certains pays dans des disciplines spécifiques.
 
@@ -11,8 +11,52 @@ L'objectif de notre étude est d’analyser les données des Jeux Olympiques ent
 Pour notre analyse, nous avons sélectionné trois datasets relatifs aux Jeux Olympiques. Ces derniers sont disponibles sur Kaggle :
 
 1. **[Olympics 124 years Dataset(till 2020)](https://www.kaggle.com/datasets/nitishsharma01/olympics-124-years-datasettill-2020)**
+   Ce dataset compile des informations détaillées sur les Jeux Olympiques de 1896 à 2020, incluant les athlètes, les épreuves, les sports, les pays et les résultats.
+   - **Variables :**  
+     - `ID` : Identifiant unique de l'athlète
+     - `Name` : Nom de l'athlète
+     - `Sex` : Sexe de l'athlète (M/F)
+     - `Age` : Age de l'athlète
+     - `Team` : Pays représenté
+     - `NOC` : Code du pays (Comité National Olympique)
+     - `Games` : Année et saison des Jeux (ex: 2016 Summer)
+     - `Year` : Année des Jeux
+     - `Season` : Saison (Summer/Winter)
+     - `City` : Ville hôte des Jeux
+     - `Sport` : Sport pratiqué
+     - `Event` : Épreuve spécifique
+     - `Medal` : Type de médaille remportée (Gold, Silver, Bronze ou None)
+
 2. **[Summer Olympic Medals 1896 - 2020](https://www.kaggle.com/datasets/ramontanoeiro/summer-olympic-medals-1986-2020)**
+   Ce dataset se concentre sur le nombre de médailles remportées par chaque pays aux Jeux Olympiques d'été entre 1896 et 2020.
+   - **Variables :**
+     - `Year` : Année des Jeux
+     - `Host_country` : Pays hôte des Jeux
+     - `Host_city` : Ville hôte des Jeux
+     - `Country_Name` : Nom du pays médaillé
+     - `Country_Code` : Code du pays (ex: USA, FRA, GER)
+     - `Gold` : Nombre de médailles d’or remportées
+     - `Silver` : Nombre de médailles d’argent remportées 
+     - `Bronze` : Nombre de médailles de bronze remportées
+
 3. **[Olympics Althlete Events Analysis](https://www.kaggle.com/datasets/samruddhim/olympics-althlete-events-analysis)**
+   Ce dataset détaille les participations des athlètes aux épreuves olympiques, incluant des informations sur leurs caractéristiques physiques et leurs performances.
+   - **Variables :**
+     - `ID` : Identifiant unique de l'athlète
+     - `Name` : Nom de l'athlète
+     - `Sex` : Sexe de l'athlète (M/F)
+     - `Age` : Age de l'athlète
+     - `Height` : Taille de l'athlète (cm)
+     - `Weight` : Poids de l'athlète (kg)
+     - `Team` : Pays ou équipe représentée
+     - `NOC` : Code du pays (Comité National Olympique)
+     - `Games` : Année et saison des Jeux (ex: 2016 Summer)
+     - `Year` : Année des Jeux
+     - `Season` : Saison (Summer/Winter)
+     - `City` : Ville hôte des Jeux
+     - `Sport` : Sport pratiqué
+     - `Event` : Épreuve spécifique
+     - `Medal` : Type de médaille remportée (Gold, Silver, Bronze ou None)
 
 ### Plan d’analyse
 
