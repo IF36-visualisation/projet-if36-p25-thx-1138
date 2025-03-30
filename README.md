@@ -204,7 +204,7 @@ Voici les questions que nous souhaitons explorer à travers ces données :
 
 - **Évolution de la participation** : Comment le nombre d'athlètes et de pays participants a-t-il évolué au fil des Jeux Olympiques ?
 - **Analyse démographique** : Quelle est la répartition par sexe, âge, taille et poids des athlètes au fil du temps et selon les disciplines ?
-- **Performance des pays** : Quels pays ont remporté le plus de médailles au fil des ans ? Existe-t-il des tendances ou des périodes de domination spécifiques ? Le nombre d'habitants est il corrélé avec le nombre de médailles ? Y'a-t-il des pays qui ne sont performant que dans une catégorie de sport (collectif, combat..') ?
+- **Performance des pays** : Quels pays ont remporté le plus de médailles au fil des ans ? Existe-t-il des tendances ou des périodes de domination spécifiques ? Le nombre d'habitants est il corrélé avec le nombre de médailles ? Y'a-t-il des pays qui ne sont performant que dans une catégorie de sport (collectif, combat...) ?
 - **Impact du pays hôte** : Un pays organisateur a-t-il un avantage en termes de performances et de médailles remportées lorsqu’il accueille les Jeux ? Comment évolue la performance des athlètes locaux par rapport aux éditions précédentes et suivantes ? Y'a il un impact géographique sur les performances des athlètes (exemple :altitude)
 - **Analyse des disciplines sportives** : Quels sports ont été les plus compétitifs en termes de nombre de participants et de médailles distribuées ?
 - **Corrélations possibles** : Existe-t-il une corrélation entre l'âge des athlètes et leur performance dans certaines disciplines ?
