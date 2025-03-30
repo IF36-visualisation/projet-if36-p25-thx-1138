@@ -14,47 +14,47 @@ Pour notre analyse, nous avons sélectionné trois datasets relatifs aux Jeux Ol
 
 1. **[Olympics 124 years Dataset(till 2020)](https://www.kaggle.com/datasets/nitishsharma01/olympics-124-years-datasettill-2020)**
 
-### **Nombre d'observations et de variables**  
+### Nombre d'observations et de variables
+
 Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque ligne représente un athlète ayant participé à une épreuve spécifique lors des Jeux Olympiques d’été entre **1896 et 2020**.
 
-### **Description des variables**  
+### Description des variables
+
 - **Identifiants uniques** :
-  - `ID` : Identifiant unique de l'athlète  
-  - `Name` : Nom de l’athlète  
+  - `ID` : Identifiant unique de l'entrée associant un athlète à une épreuve lors d'une session des jeux.
+  - `Name` : Nom de l’athlète
 
 - **Informations démographiques** :
-  - `Sex` : Sexe de l’athlète (`M` / `F`)  
-  - `Age` : Âge de l’athlète (valeurs entre **10 et 97 ans**, avec une moyenne de **25,7 ans**)  
+  - `Sex` : Sexe de l’athlète (`M` / `F`)
+  - `Age` : Âge de l’athlète (valeurs entre **10 et 97 ans**, avec une moyenne de **25,7 ans**)
 
 - **Données liées au pays** :
-  - `Team` : Nom du pays représenté  
-  - `NOC` : Code du Comité National Olympique  
+  - `Team` : Nom du pays représenté
+  - `NOC` : Code du Comité National Olympique
 
 - **Données sur l’édition des JO** :
-  - `Games` : Année et saison des JO (`ex: 2020 Summer`)  
-  - `Year` : Année des JO (de **1896 à 2020**)  
-  - `Season` : Saison (`Summer`)  
-  - `City` : Ville hôte  
+  - `Games` : Année et saison des JO (`ex: 2020 Summer`)
+  - `Year` : Année des JO (de **1896 à 2020**)
+  - `Season` : Saison (`Summer` ou `Winter`)
+  - `City` : Ville hôte
 
 - **Données sportives et résultats** :
-  - `Sport` : Discipline sportive  
-  - `Event` : Épreuve spécifique  
-  - `Medal` : Type de médaille remportée (`Gold`, `Silver`, `Bronze`, ou `None`)  
+  - `Sport` : Discipline sportive
+  - `Event` : Épreuve spécifique
+  - `Medal` : Type de médaille remportée (`Gold`, `Silver`, `Bronze`, ou `None`, dans le dernier cas le champ est simplement vide)
 
+On mentionnera également un second fichier reprenant le `NOC` et l'associant à la région de ce comité ainsi qu'à une note éventuelle le concernant.
 
-
-**Origine et pertinence du dataset**  
-Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :  
-- **L’évolution des Jeux Olympiques**, du nombre d’athlètes et de pays participants  
-- **Les performances des nations et des athlètes**  
-- **Les tendances historiques** influencées par les guerres, boycotts et changements de règlements  
-- **Les disparités de genre dans le sport olympique**  
+### Origine et pertinence du dataset
+Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :
+- **L’évolution des Jeux Olympiques**, du nombre d’athlètes et de pays participants
+- **Les performances des nations et des athlètes**
+- **Les tendances historiques** influencées par les guerres, boycotts et changements de règlements
+- **Les disparités de genre dans le sport olympique**
 
 Il s’intègre parfaitement dans notre projet sur la **visualisation et l’analyse des tendances olympiques**.
 
-
-
-**Format et structure des données**  
+**Format et structure des données**
 Le dataset est en **format CSV**, structuré de manière tabulaire et exploitable avec des outils de **data science** comme **R (tidyverse, ggplot2, dplyr)**.
 
 - **Types de variables** :
@@ -64,17 +64,17 @@ Le dataset est en **format CSV**, structuré de manière tabulaire et exploitabl
 
 - **Données manquantes** :
   - `Age` : 4 % de valeurs manquantes (≈ 9 189 observations)  
-  - `Medal` : Contient de nombreuses valeurs `None`, représentant les athlètes n’ayant pas remporté de médaille.  
+  - `Medal` : Contient de nombreuses valeurs `None`, représentant les athlètes n’ayant pas remporté de médaille.
 
 
 
 **Catégories et sous-groupes dans les données**  
 Le dataset peut être divisé en plusieurs groupes d’analyse :  
-1. **Par saison** : Jeux d’été (`Summer` uniquement dans ce dataset)  
-2. **Par pays** : Comparaison des performances via `Team` et `NOC`  
-3. **Par discipline** : Étude des sports les plus compétitifs et leur évolution  
-4. **Par médaille** : Analyse des athlètes et pays ayant remporté le plus de médailles  
-5. **Par période historique** : Impact des guerres, boycotts et modifications des règles  
+1. **Par saison** : Jeux d’été & jeux d'hiver 
+2. **Par pays** : Comparaison des performances via `Team` et `NOC`
+3. **Par discipline** : Étude des sports les plus compétitifs et leur évolution
+4. **Par médaille** : Analyse des athlètes et pays ayant remporté le plus de médailles
+5. **Par période historique** : Impact des guerres, boycotts et modifications des règles
 
 Ce dataset offre une **opportunité unique d’explorer les tendances des JO**, aussi bien sur le plan **démographique, sportif que géopolitique**.
 
