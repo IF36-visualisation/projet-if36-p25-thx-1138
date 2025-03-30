@@ -11,9 +11,7 @@ L'objectif de notre étude est d’analyser les données des Jeux Olympiques ent
 Pour notre analyse, nous avons sélectionné trois datasets relatifs aux Jeux Olympiques. Ces derniers sont disponibles sur Kaggle :
 
 1. **[Olympics 124 years Dataset(till 2020)](https://www.kaggle.com/datasets/nitishsharma01/olympics-124-years-datasettill-2020)**
-  # **Description du Dataset : Olympics 124 years Dataset (till 2020)**
 
-## **Détails des données**  
 ### **Nombre d'observations et de variables**  
 Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque ligne représente un athlète ayant participé à une épreuve spécifique lors des Jeux Olympiques d’été entre **1896 et 2020**.
 
@@ -43,7 +41,7 @@ Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque
 
 ---
 
-## **Origine et pertinence du dataset**  
+**Origine et pertinence du dataset**  
 Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :  
 - **L’évolution des Jeux Olympiques**, du nombre d’athlètes et de pays participants  
 - **Les performances des nations et des athlètes**  
@@ -54,7 +52,7 @@ Il s’intègre parfaitement dans notre projet sur la **visualisation et l’ana
 
 ---
 
-## **Format et structure des données**  
+**Format et structure des données**  
 Le dataset est en **format CSV**, structuré de manière tabulaire et exploitable avec des outils de **data science** comme **R (tidyverse, ggplot2, dplyr)** ou **Python (pandas, seaborn, matplotlib)**.
 
 - **Types de variables** :
@@ -68,7 +66,7 @@ Le dataset est en **format CSV**, structuré de manière tabulaire et exploitabl
 
 ---
 
-## **Catégories et sous-groupes dans les données**  
+**Catégories et sous-groupes dans les données**  
 Le dataset peut être divisé en plusieurs groupes d’analyse :  
 1. **Par saison** : Jeux d’été (`Summer` uniquement dans ce dataset)  
 2. **Par pays** : Comparaison des performances via `Team` et `NOC`  
