@@ -6,7 +6,7 @@ Nous sommes des étudiants de l'Université de Technologie de Troyes et réaliso
 
 L'objectif de notre étude est d’analyser les données des Jeux Olympiques entre **1896 et 2020** afin d’identifier des tendances et répondre à différentes questions. Nous nous interrogerons notamment sur l’impact du pays hôte sur les performances des athlètes nationaux, la répartition géographique des médaillés ou encore la domination de certains pays dans des disciplines spécifiques.
 
---
+---
 
 ### Données
 
@@ -41,7 +41,7 @@ Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque
   - `Event` : Épreuve spécifique  
   - `Medal` : Type de médaille remportée (`Gold`, `Silver`, `Bronze`, ou `None`)  
 
---
+
 
 **Origine et pertinence du dataset**  
 Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :  
@@ -52,7 +52,7 @@ Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivi
 
 Il s’intègre parfaitement dans notre projet sur la **visualisation et l’analyse des tendances olympiques**.
 
---
+
 
 **Format et structure des données**  
 Le dataset est en **format CSV**, structuré de manière tabulaire et exploitable avec des outils de **data science** comme **R (tidyverse, ggplot2, dplyr)** ou **Python (pandas, seaborn, matplotlib)**.
@@ -66,7 +66,7 @@ Le dataset est en **format CSV**, structuré de manière tabulaire et exploitabl
   - `Age` : 4 % de valeurs manquantes (≈ 9 189 observations)  
   - `Medal` : Contient de nombreuses valeurs `None`, représentant les athlètes n’ayant pas remporté de médaille.  
 
---
+
 
 **Catégories et sous-groupes dans les données**  
 Le dataset peut être divisé en plusieurs groupes d’analyse :  
