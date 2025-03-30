@@ -11,21 +11,73 @@ L'objectif de notre étude est d’analyser les données des Jeux Olympiques ent
 Pour notre analyse, nous avons sélectionné trois datasets relatifs aux Jeux Olympiques. Ces derniers sont disponibles sur Kaggle :
 
 1. **[Olympics 124 years Dataset(till 2020)](https://www.kaggle.com/datasets/nitishsharma01/olympics-124-years-datasettill-2020)**
-   Ce dataset compile des informations détaillées sur les Jeux Olympiques de 1896 à 2020, incluant les athlètes, les épreuves, les sports, les pays et les résultats.
-   - **Variables :**  
-     - `ID` : Identifiant unique de l'athlète
-     - `Name` : Nom de l'athlète
-     - `Sex` : Sexe de l'athlète (M/F)
-     - `Age` : Age de l'athlète
-     - `Team` : Pays représenté
-     - `NOC` : Code du pays (Comité National Olympique)
-     - `Games` : Année et saison des Jeux (ex: 2016 Summer)
-     - `Year` : Année des Jeux
-     - `Season` : Saison (Summer/Winter)
-     - `City` : Ville hôte des Jeux
-     - `Sport` : Sport pratiqué
-     - `Event` : Épreuve spécifique
-     - `Medal` : Type de médaille remportée (Gold, Silver, Bronze ou None)
+  # **Description du Dataset : Olympics 124 years Dataset (till 2020)**
+
+## **Détails des données**  
+### **Nombre d'observations et de variables**  
+Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque ligne représente un athlète ayant participé à une épreuve spécifique lors des Jeux Olympiques d’été entre **1896 et 2020**.
+
+### **Description des variables**  
+- **Identifiants uniques** :
+  - `ID` : Identifiant unique de l'athlète  
+  - `Name` : Nom de l’athlète  
+
+- **Informations démographiques** :
+  - `Sex` : Sexe de l’athlète (`M` / `F`)  
+  - `Age` : Âge de l’athlète (valeurs entre **10 et 97 ans**, avec une moyenne de **25,7 ans**)  
+
+- **Données liées au pays** :
+  - `Team` : Nom du pays représenté  
+  - `NOC` : Code du Comité National Olympique  
+
+- **Données sur l’édition des JO** :
+  - `Games` : Année et saison des JO (`ex: 2020 Summer`)  
+  - `Year` : Année des JO (de **1896 à 2020**)  
+  - `Season` : Saison (`Summer`)  
+  - `City` : Ville hôte  
+
+- **Données sportives et résultats** :
+  - `Sport` : Discipline sportive  
+  - `Event` : Épreuve spécifique  
+  - `Medal` : Type de médaille remportée (`Gold`, `Silver`, `Bronze`, ou `None`)  
+
+---
+
+## **Origine et pertinence du dataset**  
+Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :  
+- **L’évolution des Jeux Olympiques**, du nombre d’athlètes et de pays participants  
+- **Les performances des nations et des athlètes**  
+- **Les tendances historiques** influencées par les guerres, boycotts et changements de règlements  
+- **Les disparités de genre dans le sport olympique**  
+
+Il s’intègre parfaitement dans notre projet sur la **visualisation et l’analyse des tendances olympiques**.
+
+---
+
+## **Format et structure des données**  
+Le dataset est en **format CSV**, structuré de manière tabulaire et exploitable avec des outils de **data science** comme **R (tidyverse, ggplot2, dplyr)** ou **Python (pandas, seaborn, matplotlib)**.
+
+- **Types de variables** :
+  - **Catégoriques** : `Sex`, `Team`, `NOC`, `Games`, `Season`, `City`, `Sport`, `Event`, `Medal`
+  - **Numériques** : `Age`, `Year`
+  - **Identifiants uniques** : `ID`
+
+- **Données manquantes** :
+  - `Age` : 4 % de valeurs manquantes (≈ 9 189 observations)  
+  - `Medal` : Contient de nombreuses valeurs `None`, représentant les athlètes n’ayant pas remporté de médaille.  
+
+---
+
+## **Catégories et sous-groupes dans les données**  
+Le dataset peut être divisé en plusieurs groupes d’analyse :  
+1. **Par saison** : Jeux d’été (`Summer` uniquement dans ce dataset)  
+2. **Par pays** : Comparaison des performances via `Team` et `NOC`  
+3. **Par discipline** : Étude des sports les plus compétitifs et leur évolution  
+4. **Par médaille** : Analyse des athlètes et pays ayant remporté le plus de médailles  
+5. **Par période historique** : Impact des guerres, boycotts et modifications des règles  
+
+Ce dataset offre une **opportunité unique d’explorer les tendances des JO**, aussi bien sur le plan **démographique, sportif que géopolitique**.
+
 
 2. **[Summer Olympic Medals 1896 - 2020](https://www.kaggle.com/datasets/ramontanoeiro/summer-olympic-medals-1986-2020)**
    Ce dataset se concentre sur le nombre de médailles remportées par chaque pays aux Jeux Olympiques d'été entre 1896 et 2020.
@@ -72,5 +124,7 @@ Voici les questions que nous souhaitons explorer à travers ces données :
 - **Analyse des villes hôtes** : Y a-t-il une tendance géographique dans le choix des villes hôtes au fil des années ?
 - **Performance individuelle** : Quels athlètes ont remporté le plus de médailles au cours de leur carrière ?
 - **Disparités de genre** : Comment la participation et la performance des femmes aux Jeux Olympiques ont-elles évolué depuis leur introduction ?
+- **Effets des boycotts et des conflits** : Quels ont été les impacts des boycotts et des guerres sur les Jeux Olympiques en termes de participation et de performances des nations concernées ?
+- **Influence économique et politique** : Y a-t-il une relation entre le niveau économique d’un pays et son nombre de médailles remportées ? Les périodes de tensions politiques ou de crises économiques ont-elles eu un impact sur la participation et les performances ?
 
-Pour répondre à ces questions, nous comparerons des variables telles que le nombre d'athlètes, le nombre de pays participants, le nombre de médailles remportées, l'âge des athlètes, etc. Nous devrons également être attentifs aux éventuelles incohérences ou valeurs manquantes dans les données, ainsi qu'aux changements de catégories ou de disciplines au fil du temps, qui pourraient compliquer certaines analyses.
+Pour répondre à ces questions, nous comparerons des variables telles que le nombre d'athlètes, le nombre de pays participants, le nombre de médailles remportées, l'âge des athlètes, etc. Nous devrons également être attentifs aux éventuelles incohérences ou valeurs manquantes dans les données, ainsi qu'aux changements de catégories ou de disciplines au fil du temps, qui pourraient compliquer certaines analyses. La comparabilité entre différentes époques constitue également un enjeu majeur, car les règlements et les disciplines olympiques ont évolué au fil du temps, impactant les performances et les classements. De plus, des événements historiques tels que les boycotts ou les guerres ont parfois limité la participation de certains pays, ce qui pourrait biaiser certaines analyses. Il sera donc essentiel de prendre en compte ces facteurs pour garantir la pertinence et la fiabilité des conclusions.
