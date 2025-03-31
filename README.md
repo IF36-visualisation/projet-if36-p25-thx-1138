@@ -43,7 +43,7 @@ Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque
   - `Event` : Épreuve spécifique
   - `Medal` : Type de médaille remportée (`Gold`, `Silver`, `Bronze`, ou `None`, dans le dernier cas le champ est simplement vide)
 
-On mentionnera également un second fichier reprenant le `NOC` et l'associant à la région de ce comité ainsi qu'à une note éventuelle le concernant.
+On mentionnera également le fichier [regions.csv](./data/Olympics_124 years_Dataset/regions.csv) reprenant le `NOC` et l'associant à la région de ce comité ainsi qu'à une note éventuelle le concernant. Celui-ci nous permettra éventuellement d'obtenir des informations complémentaires rendant certains résultats plus clairs.
 
 #### Origine et pertinence du dataset
 Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :
