@@ -8,17 +8,17 @@ L'objectif de notre étude est d’analyser les données des Jeux Olympiques ent
 
 ---
 
-## Données
+### Données
 
 Pour notre analyse, nous avons sélectionné trois datasets relatifs aux Jeux Olympiques. Ces derniers sont disponibles sur Kaggle :
 
-### 1. **[Olympics 124 years Dataset(till 2020)](https://www.kaggle.com/datasets/nitishsharma01/olympics-124-years-datasettill-2020)**
+#### 1. **[Olympics 124 years Dataset(till 2020)](https://www.kaggle.com/datasets/nitishsharma01/olympics-124-years-datasettill-2020)**
 
-#### Nombre d'observations et de variables
+##### Nombre d'observations et de variables
 
 Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque ligne représente un athlète ayant participé à une épreuve spécifique lors des Jeux Olympiques d’été entre **1896 et 2020**.
 
-#### Description des variables
+##### Description des variables
 
 - **Identifiants uniques** :
   - `ID` : Identifiant unique de l'entrée associant un athlète à une épreuve lors d'une session des jeux.
@@ -43,9 +43,9 @@ Le dataset contient **environ 238 000 observations** et **13 variables**. Chaque
   - `Event` : Épreuve spécifique
   - `Medal` : Type de médaille remportée (`Gold`, `Silver`, `Bronze`, ou `None`, dans le dernier cas le champ est simplement vide)
 
-On mentionnera également le fichier [regions.csv](./data/Olympics_124 years_Dataset/regions.csv) reprenant le `NOC` et l'associant à la région de ce comité ainsi qu'à une note éventuelle le concernant. Celui-ci nous permettra éventuellement d'obtenir des informations complémentaires rendant certains résultats plus clairs.
+On mentionnera également le fichier [regions.csv](https://github.com/IF36-visualisation/projet-if36-p25-thx-1138/blob/master/data/Olympics_124_years_Dataset/regions.csv) reprenant le `NOC` et l'associant à la région de ce comité ainsi qu'à une note éventuelle le concernant. Celui-ci nous permettra éventuellement d'obtenir des informations complémentaires rendant certains résultats plus clairs.
 
-#### Origine et pertinence du dataset
+##### Origine et pertinence du dataset
 Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :
 - **L’évolution des Jeux Olympiques**, du nombre d’athlètes et de pays participants
 - **Les performances des nations et des athlètes**
@@ -54,7 +54,7 @@ Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivi
 
 Il s’intègre parfaitement dans notre projet sur la **visualisation et l’analyse des tendances olympiques**.
 
-#### Format et structure des données
+##### Format et structure des données
 
 Le dataset est en **format CSV**, structuré de manière tabulaire et exploitable avec des outils de **data science** comme **R (tidyverse, ggplot2, dplyr)**.
 
@@ -80,12 +80,12 @@ Le dataset peut être divisé en plusieurs groupes d’analyse :
 Ce dataset offre une **opportunité unique d’explorer les tendances des JO**, aussi bien sur le plan **démographique, sportif que géopolitique**.
 
 
-###  2. **[Summer Olympic Medals 1896 - 2020](https://www.kaggle.com/datasets/ramontanoeiro/summer-olympic-medals-1986-2020)**
+####  2. **[Summer Olympic Medals 1896 - 2020](https://www.kaggle.com/datasets/ramontanoeiro/summer-olympic-medals-1986-2020)**
 
-#### Nombre d'observations et de variables
+##### Nombre d'observations et de variables
 Le dataset contient **1344 observations** et **8 variables**. Chaque ligne représente le nombre de médailles remportées par un pays lors d’une édition des Jeux Olympiques d’été entre **1896 et 2020**.
 
-#### Description des variables
+##### Description des variables
 
 - **Informations sur l’édition des JO** :
   - `Year` : Année des Jeux
@@ -101,7 +101,7 @@ Le dataset contient **1344 observations** et **8 variables**. Chaque ligne repr�
   - `Silver` : Nombre de médailles d’argent remportées
   - `Bronze` : Nombre de médailles de bronze remportées
 
-#### Origine et pertinence du dataset
+##### Origine et pertinence du dataset
 
 Ce dataset provient de **Kaggle** et se concentre sur la **performance des pays aux Jeux Olympiques d’été** à travers le nombre de médailles obtenues. Il est pertinent pour analyser :  
 - **L’évolution des performances des pays** sur plus d’un siècle de compétitions
@@ -111,9 +111,9 @@ Ce dataset provient de **Kaggle** et se concentre sur la **performance des pays 
 
 Ce dataset s’intègre parfaitement dans un projet de **visualisation et d’analyse des performances olympiques par pays**.
 
-#### Format et structure des données
+##### Format et structure des données
 
-Le dataset est en **format CSV**, organisé sous une structure tabulaire exploitable avec des outils de **data science** comme **Pandas, Matplotlib et Seaborn**.
+Le dataset est en **format CSV**, organisé sous une structure tabulaire exploitable avec des outils de **data science** comme **R (tidyverse, ggplot2, dplyr)**.
 
 - **Types de variables** :
   - **Catégoriques** : `Host_country`, `Host_city`, `Country_Name`, `Country_Code`
@@ -132,13 +132,13 @@ Ce dataset peut être segmenté selon plusieurs axes d’analyse :
 
 Ce dataset constitue une **ressource précieuse pour étudier les performances olympiques des nations** et comprendre **l’évolution des tendances sportives au fil du temps**.
 
-### 3. **[Olympics Athlete Events Analysis](https://www.kaggle.com/datasets/samruddhim/olympics-althlete-events-analysis)**
+#### 3. **[Olympics Athlete Events Analysis](https://www.kaggle.com/datasets/samruddhim/olympics-althlete-events-analysis)**
 
-#### Nombre d'observations et de variables
+##### Nombre d'observations et de variables
 
 Le dataset contient **environ 271 000 observations** et **15 variables**. Chaque ligne représente un athlète ayant participé à une épreuve spécifique lors des Jeux Olympiques d'été et d'hiver, depuis **1896**.
 
-#### Description des variables
+##### Description des variables
 
 - **Identifiants uniques** :
   - `ID` : Identifiant unique de l'athlète  
@@ -163,7 +163,7 @@ Le dataset contient **environ 271 000 observations** et **15 variables**. Chaque
   - `Event` : Épreuve spécifique  
   - `Medal` : Type de médaille remportée (`Gold`, `Silver`, `Bronze`, ou `None`)  
 
-#### Origine et pertinence du dataset
+##### Origine et pertinence du dataset
 
 Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivité et sa richesse en informations**, couvrant plus d’un siècle de compétitions olympiques. Il permet d’analyser :
 - **L’évolution des Jeux Olympiques**, du nombre d’athlètes et de pays participants
@@ -173,7 +173,7 @@ Ce dataset provient de **Kaggle** et a été sélectionné pour son **exhaustivi
 
 Ce dataset est particulièrement pertinent pour les projets d'**analyse de données sportives** et peut être utilisé pour la **visualisation** et l’**analyse des tendances olympiques**.
 
-#### Format et structure des données
+##### Format et structure des données
 
 Le dataset est en **format CSV**, structuré de manière tabulaire et exploitable avec des outils de **data science** comme **R (tidyverse, ggplot2, dplyr)**.
 
@@ -198,13 +198,13 @@ Ce dataset offre une **opportunité unique d’explorer les tendances des JO**, 
 
 ---
 
-## Plan d’analyse
+### Plan d’analyse
 
 Voici les questions que nous souhaitons explorer à travers ces données :
 
 - **Évolution de la participation** : Comment le nombre d'athlètes et de pays participants a-t-il évolué au fil des Jeux Olympiques ?
 - **Analyse démographique** : Quelle est la répartition par sexe, âge, taille et poids des athlètes au fil du temps et selon les disciplines ?
-- **Performance des pays** : Quels pays ont remporté le plus de médailles au fil des ans ? Existe-t-il des tendances ou des périodes de domination spécifiques ? Le nombre d'habitants est il corrélé avec le nombre de médailles ? Y'a-t-il des pays qui ne sont performant que dans une catégorie de sport (collectif, combat..') ?
+- **Performance des pays** : Quels pays ont remporté le plus de médailles au fil des ans ? Existe-t-il des tendances ou des périodes de domination spécifiques ? Le nombre d'habitants est il corrélé avec le nombre de médailles ? Y'a-t-il des pays qui ne sont performant que dans une catégorie de sport (collectif, combat...) ?
 - **Impact du pays hôte** : Un pays organisateur a-t-il un avantage en termes de performances et de médailles remportées lorsqu’il accueille les Jeux ? Comment évolue la performance des athlètes locaux par rapport aux éditions précédentes et suivantes ? Y'a il un impact géographique sur les performances des athlètes (exemple :altitude)
 - **Analyse des disciplines sportives** : Quels sports ont été les plus compétitifs en termes de nombre de participants et de médailles distribuées ?
 - **Corrélations possibles** : Existe-t-il une corrélation entre l'âge des athlètes et leur performance dans certaines disciplines ?
