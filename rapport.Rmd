@@ -316,6 +316,109 @@ ggplot(medal_types, aes(x = Medal_Type, y = Count, fill = Host)) +
 ```
 
 ### Interprétation
-L'avantage du pays hôte est visible pour tous les types de médailles, avec un effet plus prononcé pour les médailles d'or. Les pays hôtes remportent en moyenne 4 médailles d'or de plus que d'argent ou de bronze, tandis que cette distribution est plus équilibrée pour les pays non-hôtes. Cette légère surreprésentation des médailles d'or confirme que l'avantage du pays hôte est déterminant dans les moments décisifs des compétitions.
+L'avantage du pays hôte est visible pour tous les types de médailles, avec un effet plus prononcé pour les médailles d'or. Les pays hôtes remportent en moyenne 4 médailles d'or de plus que d'argent ou de bronze, tandis que cette distribution est plus équilibrée pour les pays non-hôtes. Cette légère surreprésentation des médailles d'or confirme que l'avantage du pays hôte est déterminant dans les moments décisifs des compétitions
 
+## 2. Existe-t-il une corrélation entre l'âge des athlètes et leur performance dans certaines disciplines
 
+Nous cherchons à comprendre si l’âge des athlètes est un facteur clé de leur performance, en particulier à travers l’obtention de médailles, et si cette influence varie selon les disciplines sportives.
+
+Nous partons de l’hypothèse que l'âge optimal de performance pourrait différer selon les sports :  
+- Dans des disciplines nécessitant puissance, vitesse et explosivité (ex: gymnastique, natation), les athlètes seraient plus jeunes.  
+- Tandis que dans des disciplines nécessitant technique, expérience ou endurance mentale (ex: tir, équitation), les athlètes performants seraient plus âgés.
+
+### Question 1 : Âge moyen par sport
+
+```{r}
+# Lecture des données
+athletes <- read_csv("data/Olympics Althlete Events Analysis/athlete_events.csv", show_col_types = FALSE)
+
+# Nettoyage : ne garder que les athlètes ayant remporté une médaille
+medalists <- athletes %>%
+  filter(!is.na(Medal) & !is.na(Age)) 
+
+# Regrouper par sport pour calculer l'âge moyen
+age_by_sport <- medalists %>%
+  group_by(Sport) %>%
+  summarise(
+    Mean_Age = mean(Age),
+    Count = n()
+  ) %>%
+  ungroup()
+
+# Sélectionner les 10 sports avec l'âge moyen le plus bas et les 10 avec l'âge moyen le plus élevé
+age_top_bottom <- age_by_sport %>%
+  arrange(Mean_Age) %>%
+  slice_head(n = 10) %>%
+  bind_rows(
+    age_by_sport %>%
+      arrange(desc(Mean_Age)) %>%
+      slice_head(n = 10)
+  )
+
+# Visualisation
+ggplot(age_top_bottom, aes(x = reorder(Sport, Mean_Age), y = Mean_Age)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Âge moyen des médaillés (Top 10 plus jeunes et Top 10 plus âgés)",
+    subtitle = "Analyse des Jeux Olympiques (1896-2020)",
+    x = NULL,
+    y = "Âge moyen"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    panel.grid.major.y = element_blank(),
+    plot.title.position = "plot",
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+
+### Interprétation
+Le graphique montre des différences marquées d'âge moyen selon les disciplines :
+
+- Sports d'explosivité (ex: gymnastique, natation, plongeon) : Les athlètes ayant remporté des médailles sont très jeunes, avec un âge moyen souvent inférieur à 25 ans. Cela confirme l'idée que jeunesse et qualités physiques maximales (force, agilité, récupération rapide) sont déterminantes.
+- Sports d'adresse et d'expérience (ex: tir, équitation, roque) : Les médaillés sont sensiblement plus âgés, avec un âge moyen dépassant 30 ans dans certaines disciplines. Ces sports nécessitent davantage de maîtrise technique, de calme, d'expérience et moins de dépendance à la performance physique brute.
+
+Cela soulève cependant une autre question : Est-ce que la couleur de la médaille remportée dépend de l'âge des athlètes ?
+
+On pourrait s'attendre à ce que les trois athlètes montant sur le podium (médailles d'or, d'argent et de bronze) soient globalement du même âge.
+
+### Question 2 : Distribution âge par type de médaille
+
+```{r}
+# Définir des couleurs classiques pour les médailles
+medal_colors <- c("Gold" = "#FFD700",    # Or
+                  "Silver" = "#C0C0C0",  # Argent
+                  "Bronze" = "#CD7F32")  # Bronze
+
+# Visualiser la distribution de l'âge par type de médaille
+ggplot(medalists, aes(x = Age, color = Medal)) +
+  geom_density(alpha = 0.2, linewidth = 0.8) +
+  scale_color_manual(values = medal_colors) +
+  labs(
+    title = "Distribution de l'âge selon le type de médaille remportée",
+    subtitle = "Analyse des médaillés (JO été et hiver, 1896-2020)",
+    x = "Âge",
+    y = "Proportion d'athlètes",
+    color = "Type de médaille",
+    fill = "Type de médaille"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "bottom",
+    panel.grid.major.y = element_blank()
+  )
+```
+
+### Interprétation
+
+Le graphique présente la distribution de l'âge des athlètes médaillés aux Jeux Olympiques (de 1896 à 2020) selon le type de médaille remportée (bronze, argent, or).
+
+On observe que :
+- La majorité des athlètes médaillés ont entre 20 et 30 ans, avec un pic autour de 23 ans.
+- La forme de la distribution est très similaire pour les trois types de médailles : bronze, argent et or.
+
+Le graphique suggère donc que, dans une même épreuve, les trois athlètes présents sur le podium (médailles d'or, d'argent et de bronze) ont en moyenne un âge similaire.
