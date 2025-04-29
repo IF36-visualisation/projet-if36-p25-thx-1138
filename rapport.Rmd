@@ -3,6 +3,9 @@ title: "Analyse des Jeux Olympique"
 author: "THX1138"
 date: "2025-04-23"
 output:
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
   html_document: default
   pdf_document: default
 editor_options:
