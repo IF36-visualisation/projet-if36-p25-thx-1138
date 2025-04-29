@@ -322,7 +322,7 @@ ces facteurs pour garantir la pertinence et la fiabilité des
 conclusions.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(dplyr)
 library(ggplot2)
 library(readr)
