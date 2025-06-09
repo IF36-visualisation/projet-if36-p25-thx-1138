@@ -326,6 +326,12 @@ knitr::opts_chunk$set(echo = FALSE)
 library(dplyr)
 library(ggplot2)
 library(readr)
+library(tidyverse)
+library(shiny)
+library(leaflet)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
 ```
 
 ## Analyse
@@ -653,5 +659,275 @@ On pourrait supposer que l'arrêt d'augmentation des médailles féminines a pu 
 
 Par ailleurs il semblerait que dans les éditions les plus récentes la disparité soit plus visible pour les médailles de bronze.
 
+### 4.Performances indivduelles
+Nous cherchons à comprendre quels sont les athlètes les plus titrés de l’histoire des Jeux Olympiques, et si leur réussite est influencée par la saison (été ou hiver), la discipline sportive, ou encore la période historique à laquelle ils ont concouru.Nous partons de plusieurs hypothèses:
+1.  Certains sports offrent plus d’épreuves individuelles, ce qui permet aux athlètes d’accumuler un nombre plus important de médailles (ex : natation, gymnastique, ou biathlon).
+2.  Les Jeux d’été, proposant un plus grand nombre de disciplines, pourraient mécaniquement compter plus de champions multi-médaillés.
+3. Les athlètes les plus décorés apparaissent peut-être plus fréquemment dans des périodes récentes, en raison de l'augmentation du nombre d'épreuves ou de participations aux JO sur plusieurs éditions.
+
+Pour y répondre, nous utiliserons deux types de visualisations :
+- Un graphique en barres comparant les athlètes les plus titrés dans les Jeux d'été et d'hiver, avec une mise en évidence de leurs disciplines respectives.
+- Un nuage de points représentant la distribution dans le temps des athlètes ayant obtenu le plus de médailles, afin d'observer leur répartition historique et potentiellement dégager une tendance chronologique
+
+```{r}
+# Lecture des données été
+data <- read_csv("data/Olympics_124_years_Dataset/Athletes_summer_games.csv")
+
+# Nettoyage et filtrage
+data_medals <- data %>% 
+  filter(!is.na(Medal) & Medal != "")
+
+# Comptage des médailles par athlète
+medals_by_athlete <- data_medals %>%
+  group_by(Name, Sport, Medal) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  pivot_wider(names_from = Medal, values_from = count, values_fill = 0) %>%
+  mutate(total = rowSums(across(c(Gold, Silver, Bronze)))) %>%
+  arrange(desc(total), desc(Gold)) %>%
+  slice_head(n = 20) %>%
+  mutate(Name_Sport = paste0(Name, " (", Sport, ")"))
+
+# Passage en format long pour ggplot
+medals_long <- medals_by_athlete %>%
+  select(-total, -Name, -Sport) %>%
+  pivot_longer(cols = c("Gold", "Silver", "Bronze"), names_to = "Medal_Type", values_to = "Count") %>%
+  mutate(
+    Medal_Type = factor(Medal_Type, levels = c("Gold", "Silver", "Bronze")),
+    Name_Sport = reorder(Name_Sport, Count, FUN = sum)
+  )
+
+# Visualisation
+ggplot(medals_long, aes(x = Count, y = Name_Sport, fill = Medal_Type)) +
+  geom_col(position = "stack", width = 0.7) +
+  scale_fill_manual(values = c("Gold" = "#FFD700", "Silver" = "#C0C0C0", "Bronze" = "#CD7F32")) +
+  labs(
+    title = "Les 20 athlètes les plus médaillés aux Jeux olympiques d'été",
+    subtitle = "Répartition par type de médaille (et sport)",
+    x = "Nombre de médailles",
+    y = "Athlète (Sport)",
+    fill = "Type de médaille"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
+
+```
+```{r}
+# Lecture des données hiver
+data <- read_csv("data/Olympics_124_years_Dataset/Athletes_winter_games.csv")
+
+# Nettoyage et filtrage
+data_medals <- data %>% 
+  filter(!is.na(Medal) & Medal != "")
+
+# Comptage des médailles par athlète
+medals_by_athlete <- data_medals %>%
+  group_by(Name, Sport, Medal) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  pivot_wider(names_from = Medal, values_from = count, values_fill = 0) %>%
+  mutate(total = rowSums(across(c(Gold, Silver, Bronze)))) %>%
+  arrange(desc(total), desc(Gold)) %>%
+  slice_head(n = 20) %>%
+  mutate(Name_Sport = paste0(Name, " (", Sport, ")"))
+
+# Passage en format long
+medals_long <- medals_by_athlete %>%
+  select(-total, -Name, -Sport) %>%
+  pivot_longer(cols = c("Gold", "Silver", "Bronze"), names_to = "Medal_Type", values_to = "Count") %>%
+  mutate(
+    Medal_Type = factor(Medal_Type, levels = c("Gold", "Silver", "Bronze")),
+    Name_Sport = reorder(Name_Sport, Count, FUN = sum)
+  )
+
+# Visualisation
+ggplot(medals_long, aes(x = Count, y = Name_Sport, fill = Medal_Type)) +
+  geom_col(position = "stack", width = 0.7) +
+  scale_fill_manual(values = c("Gold" = "#FFD700", "Silver" = "#C0C0C0", "Bronze" = "#CD7F32")) +
+  labs(
+    title = "Les 20 athlètes les plus médaillés aux Jeux olympiques d'hiver",
+    subtitle = "Répartition par type de médaille (et sport)",
+    x = "Nombre de médailles",
+    y = "Athlète (Sport)",
+    fill = "Type de médaille"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
+
+```
+```{r}
+# Chargement des deux jeux de données
+summer <- read_csv("data/Olympics_124_years_Dataset/Athletes_summer_games.csv")
+winter <- read_csv("data/Olympics_124_years_Dataset/Athletes_winter_games.csv")
+
+# Ajout de la colonne "Season"
+summer <- summer %>% mutate(Season = "Summer")
+winter <- winter %>% mutate(Season = "Winter")
+
+# Fusion des deux
+all_data <- bind_rows(summer, winter)
+
+# Filtrage pour les athlètes avec médailles
+medals_data <- all_data %>%
+  filter(!is.na(Medal) & Medal != "")
+
+# Résumé par athlète
+athlete_summary <- medals_data %>%
+  group_by(Name, Season) %>%
+  summarise(
+    total_medals = n(),
+    last_year = max(Year),
+    .groups = "drop"
+  ) %>%
+  filter(total_medals >= 10)
+
+# Visualisation
+ggplot(athlete_summary, aes(x = last_year, y = total_medals, color = Season)) +
+  geom_point(size = 3, alpha = 0.7) +
+  scale_color_manual(values = c("Summer" = "goldenrod", "Winter" = "steelblue")) +
+  labs(
+    title = "Nombre de médailles en fonction de l'année de la dernière médaille",
+    subtitle = "Athlètes avec au moins 10 médailles (Jeux d'été en jaune, Jeux d'hiver en bleu)",
+    x = "Année de la dernière médaille",
+    y = "Nombre total de médailles",
+    color = "Saison"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom", plot.title = element_text(face = "bold"))
+
+```
+###Interpretation
+Notre analyse met en lumière une forte concentration des athlètes les plus titrés dans quelques disciplines spécifiques. Aux Jeux d'été, la natation (35 épreuves à Paris 2024) et la gymnastique (18 épreuves artistiques) se distinguent : ces sports offrent de nombreuses opportunités de médailles, souvent accessibles à un même athlète lors d’une seule édition, contrairement à l’athlétisme où la spécialisation limite ce cumul. Du côté des Jeux d’hiver, ce sont le ski de fond (12 épreuves) et le patinage de vitesse (14 épreuves) qui dominent pour les mêmes raisons : formats répétitifs et participation multiple possible. On constate également que le nombre total de médailles d’été est nettement supérieur, ce qui s’explique par un programme bien plus riche (329 épreuves à Paris 2024 contre 109 en hiver).Sur le plan historique, les athlètes comptant au moins 10 médailles apparaissent majoritairement à partir des années 1950, en lien avec l’augmentation progressive du nombre d’épreuves : environ 150 épreuves en 1952, 195 en 1972, 271 en 2000, et 329 en 2024. Cette expansion du programme olympique a multiplié les occasions de médailles et favorisé l’émergence de palmarès impressionnants. Enfin, Michael Phelps reste l’athlète le plus décoré de l’histoire, avec 28 médailles, illustrant parfaitement les conditions favorables offertes par la natation pour bâtir un palmarès exceptionnel.
+
+#5. Evolution de la participation
+Dans cette étude, nous nous intéressons à l’évolution de la participation aux Jeux Olympiques ainsi qu’aux performances des athlètes les plus titrés de leur histoire. Nous cherchons à comprendre comment le nombre d’athlètes et de pays participants a évolué au fil des éditions, en distinguant les Jeux d’été des Jeux d’hiver. En effet, la différence de participation entre ces deux saisons est significative, justifiant une analyse séparée.
+
+Nous partons de plusieurs hypothèses. D’une part, nous supposons que le nombre de participants a globalement augmenté au fil du temps, notamment en raison de l’augmentation du nombre d’épreuves et de pays engagés. D’autre part, nous anticipons des variations liées à des événements extra-sportifs, comme des boycotts ou des conflits politiques, qui ont pu affecter certaines éditions.
+
+```{r}
+# Charger les données
+data <- read_csv("data/Olympics Althlete Events Analysis/athlete_events.csv")
+
+# Filtrer uniquement la saison Summer
+summer_participants <- data %>%
+  filter(Season == "Summer") %>%
+  distinct(ID, Year, Season) %>%
+  count(Year, name = "nb_participants")
+
+# Récupérer les années des JO d'été (présentes dans le dataset)
+jo_years <- sort(unique(summer_participants$Year))
+
+# Tracer la courbe pour Summer avec ticks personnalisés sur l'axe x
+ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
+  geom_line(color = "orange", size = 1.2) +
+  geom_point(color = "orange") +
+  scale_x_continuous(breaks = jo_years) +
+  labs(
+    title = "Nombre d'athlètes uniques par édition des Jeux Olympiques d'été",
+    x = "Année",
+    y = "Nombre d'athlètes uniques"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)  # incliner les labels pour mieux lire
+  )
 
 
+
+```
+
+```{r}
+# Charger les données
+data <- read_csv("data/Olympics Althlete Events Analysis/athlete_events.csv")
+
+# Filtrer uniquement la saison Winter
+summer_participants <- data %>%
+  filter(Season == "Winter") %>%
+  distinct(ID, Year, Season) %>%
+  count(Year, name = "nb_participants")
+
+# Récupérer les années des JO d'été (présentes dans le dataset)
+jo_years <- sort(unique(summer_participants$Year))
+
+# Tracer la courbe pour Summer avec ticks personnalisés sur l'axe x
+ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
+  geom_line(color = "blue", size = 1.2) +
+  geom_point(color = "blue") +
+  scale_x_continuous(breaks = jo_years) +
+  labs(
+    title = "Nombre d'athlètes uniques par édition des Jeux Olympiques d'hiver",
+    x = "Année",
+    y = "Nombre d'athlètes uniques"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)  # incliner les labels pour mieux lire
+  )
+
+
+
+```
+###Interpretation
+L’évolution du nombre de participants aux Jeux Olympiques d’été est globalement à la hausse au fil du temps, reflétant l’expansion du mouvement olympique et la multiplication des pays et disciplines représentés. Cependant, on observe trois baisses marquées en 1932, 1956 et 1980, qui s’expliquent principalement par des contextes historiques et géopolitiques spécifiques:
+
+- 1932 (Los Angeles) : Cette édition a connu une forte baisse de participation liée à la Grande Dépression, une crise économique mondiale majeure qui a limité les moyens financiers des pays pour envoyer leurs athlètes à l’étranger, surtout aux États-Unis, éloignés géographiquement des principaux foyers olympiques européens.
+
+- 1956 (Melbourne) : Plusieurs boycotts politiques ont affecté ces Jeux. La crise de Suez a conduit à l’absence de plusieurs pays arabes, tandis que l’intervention soviétique en Hongrie a provoqué des boycotts de la part de nations occidentales. De plus, la République populaire de Chine a refusé de participer en réaction à la présence de Taïwan. Ces tensions politiques ont donc diminué le nombre d’athlètes présents.
+
+- 1980 (Moscou) : Ce fut l’année du boycott massif mené par les États-Unis et plusieurs de leurs alliés, en protestation contre l’invasion soviétique de l’Afghanistan. Ce boycott a provoqué une baisse importante du nombre de participants, surtout des pays occidentaux.
+
+On remarque une évolution similaire pour les jeux d'hivers
+```{r}
+
+
+library(tidyverse)
+
+data <- read_csv("data/Olympics Althlete Events Analysis/athlete_events.csv")
+
+# Filtrer les équipes qui ressemblent à des pays
+data_filtered <- data %>%
+  filter(str_detect(Team, "^[A-Z][a-z]+(?:[ -][A-Z][a-z]+)*$"))
+
+# Calculer le nombre de pays distincts par année et saison
+countries_year_season <- data_filtered %>%
+  distinct(Team, Year, Season) %>%
+  count(Year, Season, name = "nb_pays")
+
+# Transformer Year en facteur ordonné
+countries_year_season <- countries_year_season %>%
+  mutate(Year = factor(Year, levels = sort(unique(Year))))
+
+# Choisir les années à afficher comme labels (par exemple tous les 8 ans)
+years_to_label <- levels(countries_year_season$Year)[
+  seq(1, length(levels(countries_year_season$Year)), by = 8)
+]
+
+ggplot(countries_year_season, aes(x = Year, y = nb_pays, fill = Season)) +
+  geom_bar(stat = "identity", 
+           position = position_dodge2(width = 0.9, preserve = "single"), 
+           width = 0.4) +
+  labs(
+    title = "Nombre de pays participants aux Jeux Olympiques par édition (été vs hiver)",
+    x = "Année",
+    y = "Nombre de pays",
+    fill = "Saison"
+  ) +
+  scale_fill_manual(values = c("Summer" = "orange", "Winter" = "blue")) +
+  scale_x_discrete(breaks = years_to_label) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+
+
+
+```
+
+### Interpretation
+
+
+
+Le nombre de pays participants aux Jeux Olympiques a fortement augmenté au fil du temps. Cela s’explique surtout par la décolonisation et l’indépendance de nombreux pays, ainsi que par l’ouverture du mouvement olympique à davantage de nations. On observe aussi que plus de pays participent aux Jeux d’été qu’aux Jeux d’hiver. Cela vient du fait que les sports d’hiver nécessitent des climats froids et des infrastructures spécifiques, ce qui limite la participation à certains pays seulement.
+Pics et creux dans la participation
+
+Certains pics dans le nombre de pays correspondent à des périodes historiques majeures. Par exemple, la fin de l’Union soviétique a vu l’apparition de nombreux nouveaux États participants. À l’inverse, des creux correspondent souvent à des boycotts politiques, comme en 1980 et 1984, où des groupes de pays ont refusé de participer en raison de tensions internationales.Enfin, les premières éditions des Jeux comptaient naturellement peu de pays, car le mouvement était alors plus restreint.
