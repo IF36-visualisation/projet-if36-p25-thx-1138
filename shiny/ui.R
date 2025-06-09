@@ -3,14 +3,17 @@ library(shiny)
 
 dashboardPage(
   dashboardHeader(title = "Données historiques des Jeux Olympiques"),
-  dashboardSidebar(),
+  dashboardSidebar(
+    checkboxGroupInput(
+      inputId = "medals",
+      label = NULL,
+      choiceNames = c("Or", "Argent", "Bronze"),
+      choiceValues = c("Gold", "Silver", "Bronze")
+    )
+  ),
   dashboardBody(
     fluidRow(
-      valueBox(
-        value = textOutput("helloWorld"),
-        color = "aqua",
-        subtitle = "Hello"
-      )
+      box(plotOutput("medalists_sex"))
     )
   )
 )
