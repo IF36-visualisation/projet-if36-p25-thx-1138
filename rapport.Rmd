@@ -606,3 +606,52 @@ ressortent :
     de façon quasiment constante.
 
 Il semble également y avoir eu une grande accélération dans cette réduction des disparités entre les années 1980 et 2000. On peut aisément attribuer cette évolution à l'éveil des consciences et aux mouvements sociaux qui ont eu lieu à l'époque.
+
+### Question 2 : Évolution des performances par sexe
+
+```{r}
+summer_medalists_sex <- medalists %>%
+  filter(Season == "Summer" )%>%
+  group_by(Year) %>%
+  count(Sex)
+
+ggplot(summer_medalists_sex, aes(x = Year, y = n, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés par édition des jeux d'été") +
+  theme_minimal()
+```
+
+```{r}
+
+summer_medals_sex <- medalists %>%
+  filter(Season == "Summer" )%>%
+  group_by(Year, Medal) %>%
+  count(Sex, Medal)
+
+ggplot(summer_medals_sex %>% filter(Medal == "Gold"), aes(x = Year, y = n, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés d'or par édition des jeux d'été") +
+  theme_minimal()
+
+ggplot(summer_medals_sex %>% filter(Medal == "Silver"), aes(x = Year, y = n, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés d'argent par édition des jeux d'été") +
+  theme_minimal()
+
+ggplot(summer_medals_sex %>% filter(Medal == "Bronze"), aes(x = Year, y = n, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés de bronze par édition des jeux d'été") +
+  theme_minimal()
+```
+
+### Interprétation
+
+La progression du nombre de médaillées féminines semble plus continue que l'augmentation d'athlètes féminines, particulièrement entre 1975 et 2000. On peut y voir une ouverture officielle des épreuves aux femmes qui a été continue tout en ayant une arrivée d'abord lente puis explosives des participants, ce qui s'explique avec le fait que dans les premières années de l'ouverture plus large des épreuves la participation des femmes était une chose moins acceptée et donc tentée. Une fois celle-ci acceptée les années suivantes ont vu la participation exploser pour ensuite se calquer petit à petit sur l'augmentation des épreuves.
+
+Un autre point à relever est le fait qu'autant côté participation que médailles les femmes semblent atteindre un plateau depuis les années 2000 et même si la progression semble continuer elle est très limitée malgré l'écart restant avec les hommes, même si celui-ci est très nettement réduit par rapport au siècle précédent.
+On pourrait supposer que l'arrêt d'augmentation des médailles féminines a pu limiter l'augmentation des participations féminines puisque celles-ci poursuivent une courbe plus croissante que les médailles.
+
+Par ailleurs il semblerait que dans les éditions les plus récentes la disparité soit plus visible pour les médailles de bronze.
+
+
+
