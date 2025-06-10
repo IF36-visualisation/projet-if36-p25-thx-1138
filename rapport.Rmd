@@ -356,7 +356,7 @@ pression exercée par la foule et les attentes nationales,
 particulièrement dans les finales où les résultats sont souvent plus
 serrés.
 
-### Question 1 :
+### Question 1 : Correlation entre pays hotes et nombre de médailles
 
 ```{r}
 # Lecture des données
@@ -408,36 +408,62 @@ ce niveau.
 ### Question 2 : Distribution par type de médaille
 
 ```{r}
-# Préparation des données pour visualisation par type de médaille
-medal_types <- host_performance %>%
-  select(-Total) %>%
-  tidyr::pivot_longer(
+# 1. Chargement des données
+medals <- read_csv("data/Summer Olympic Medals 1896 - 2020/summer_olympic_medals.csv", show_col_types = FALSE)
+
+# 2. Création de la variable 'Host_Status'
+medals <- medals %>%
+  mutate(Host_Status = ifelse(Country_Name == Host_country, "Pays Hôte", "Pays Non-Hôte"))
+
+# 3. Agrégation des médailles par statut du pays hôte et par type de médaille
+# Calcul des moyennes pour l'Or, l'Argent et le Bronze
+medal_type_means <- medals %>%
+  group_by(Host_Status) %>%
+  summarise(
+    Gold = mean(Gold, na.rm = TRUE),
+    Silver = mean(Silver, na.rm = TRUE),
+    Bronze = mean(Bronze, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# 4. Transformation des données au format "long" pour ggplot
+# Cela permet de représenter chaque type de médaille comme une ligne distincte
+# pour chaque catégorie (Pays Hôte / Pays Non-Hôte), nécessaire pour les barres groupées.
+medal_type_long_plot <- medal_type_means %>%
+  pivot_longer(
     cols = c("Gold", "Silver", "Bronze"),
     names_to = "Medal_Type",
-    values_to = "Count"
+    values_to = "Average_Count"
   ) %>%
-  mutate(Medal_Type = factor(Medal_Type, levels = c("Gold", "Silver", "Bronze")))
+  mutate(
+    Medal_Type = factor(Medal_Type, levels = c("Gold", "Silver", "Bronze"),
+                        labels = c("Or", "Argent", "Bronze")) # Labels en français
+  )
 
-# Visualisation par type de médaille
-ggplot(medal_types, aes(x = Medal_Type, y = Count, fill = Host)) +
-  geom_col(position = "dodge", width = 0.7) +
-  geom_text(aes(label = sprintf("%.1f", Count)), 
-            position = position_dodge(width = 0.7),
-            vjust = -0.5, size = 3.5) +
-  scale_fill_viridis_d(option = "D", begin = 0.3, end = 0.7) +
+# 5. Visualisation : Graphique en barres groupées (geom_col avec position = "dodge")
+ggplot(medal_type_long_plot, aes(x = Medal_Type, y = Average_Count, fill = Host_Status)) +
+  geom_col(position = "dodge", width = 0.7) + # Barres groupées
+  geom_text(aes(label = sprintf("%.1f", Average_Count)),
+            position = position_dodge(width = 0.7), # Positionnement des labels au-dessus des barres
+            vjust = -0.5, size = 3.5) + # Ajustement vertical pour éviter le chevauchement
+  scale_fill_manual(values = c("Pays Hôte" = "#69b3a2", "Pays Non-Hôte" = "#404080")) + # Couleurs plus distinctes
   labs(
-    title = "L'effet pays hôte selon le type de médaille",
-    subtitle = "Nombre moyen de médailles par catégorie (1896-2020)",
-    x = NULL,
+    title = "Distribution moyenne des médailles par type : Pays Hôtes vs Pays Non-Hôtes",
+    subtitle = "Nombre moyen de médailles (Or, Argent, Bronze) par catégorie (1896-2020)",
+    x = "Type de Médaille",
     y = "Nombre moyen de médailles",
-    fill = "Statut du pays :"
+    fill = "Statut du Pays" # Légende du remplissage
   ) +
   theme_minimal(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold"),
-    legend.position = "bottom",
-    panel.grid.major.x = element_blank()
-  )
+    plot.title = element_text(face = "bold", hjust = 0.5), # Titre en gras et centré
+    plot.subtitle = element_text(hjust = 0.5), # Sous-titre centré
+    legend.position = "bottom", # Position de la légende
+    panel.grid.major.x = element_blank() # Enlève les lignes de grille verticales majeures
+  ) +
+  # Ajustement de l'étendue de l'axe y pour que les labels soient visibles
+  coord_cartesian(ylim = c(0, max(medal_type_long_plot$Average_Count, na.rm = TRUE) * 1.15)) # Augmente l'étendue de 15% au-dessus du max
+
 ```
 
 ### Interprétation
@@ -449,6 +475,231 @@ bronze, tandis que cette distribution est plus équilibrée pour les pays
 non-hôtes. Cette légère surreprésentation des médailles d'or confirme
 que l'avantage du pays hôte est déterminant dans les moments décisifs
 des compétitions
+
+
+### Question 3: Évolution des médailles entre 4 ans avant et l'année hôte
+
+```{r}
+# 1. Chargement des données et calcul du total des médailles
+medals <- read_csv("data/Summer Olympic Medals 1896 - 2020/summer_olympic_medals.csv", show_col_types = FALSE) %>%
+  mutate(Total_Medals = Gold + Silver + Bronze)
+
+# 2. Identification des pays hôtes et de leurs performances aux années clés
+host_events <- medals %>%
+  filter(Country_Name == Host_country) %>%
+  distinct(Host_country, Host_city, Year) %>%
+  rename(Host_Year = Year)
+
+host_medal_trend_extended <- host_events %>%
+  rowwise() %>%
+  mutate(
+    Medals_12_Years_Before = medals %>% # Médailles 12 ans avant
+      filter(Country_Name == Host_country, Year == (Host_Year - 12)) %>%
+      pull(Total_Medals) %>%
+      first(),
+    Medals_8_Years_Before = medals %>% # Médailles 8 ans avant
+      filter(Country_Name == Host_country, Year == (Host_Year - 8)) %>%
+      pull(Total_Medals) %>%
+      first(),
+    Medals_4_Years_Before = medals %>% # Médailles 4 ans avant
+      filter(Country_Name == Host_country, Year == (Host_Year - 4)) %>%
+      pull(Total_Medals) %>%
+      first(),
+    Medals_Host = medals %>% # Médailles l'année hôte
+      filter(Country_Name == Host_country, Year == Host_Year) %>%
+      pull(Total_Medals) %>%
+      first()
+  ) %>%
+  ungroup() %>%
+  # Filtrer les événements pour lesquels nous n'avons pas de données complètes sur toutes les périodes
+  filter(!is.na(Medals_12_Years_Before) &
+           !is.na(Medals_8_Years_Before) &
+           !is.na(Medals_4_Years_Before) &
+           !is.na(Medals_Host)) %>%
+  pivot_longer(
+    cols = starts_with("Medals_"),
+    names_to = "Phase",
+    values_to = "Medals",
+    names_prefix = "Medals_"
+  ) %>%
+  mutate(
+    # Définir l'ordre et les labels des phases pour le graphique
+    Phase = factor(Phase,
+                   levels = c("12_Years_Before", "8_Years_Before", "4_Years_Before", "Host"),
+                   labels = c("12 ans avant", "8 ans avant", "4 ans avant", "Année Hôte")),
+    Host_Label = paste0(Host_country, " (", Host_city, ", ", Host_Year, ")")
+  )
+
+# Définir la valeur maximale des médailles pour l'ajustement de l'axe Y
+max_medals_value <- max(host_medal_trend_extended$Medals, na.rm = TRUE)
+
+# 3. Visualisation : Graphique en ligne (3 éditions avant vs Hôte)
+ggplot(host_medal_trend_extended, aes(x = Phase, y = Medals, group = 1)) + # group = 1 car chaque facette a une seule ligne
+  geom_point(size = 3, color = "steelblue") + # Couleur fixe pour les points dans chaque facette
+  geom_line(linewidth = 1, color = "steelblue") + # Couleur fixe pour les lignes dans chaque facette
+  labs(
+    title = "Évolution des médailles totales des pays hôtes : Tendances avant et pendant l'accueil des JO",
+    subtitle = "Performance de chaque pays hôte aux Jeux Olympiques (3 éditions précédentes et Année Hôte)",
+    x = "Période relative à l'accueil des Jeux",
+    y = "Nombre total de médailles remportées"
+  ) +
+  facet_wrap(~ Host_Label, scales = "fixed", ncol = 4) + # Utilisation de facet_wrap pour séparer les graphiques
+  theme_minimal(base_size = 10) + # Taille de base légèrement réduite pour les facettes
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 14),
+    plot.subtitle = element_text(hjust = 0.5, size = 10),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+    axis.text.y = element_text(size = 8),
+    legend.position = "none", # La légende n'est plus nécessaire car chaque graphique est étiqueté par sa facette
+    panel.grid.major.x = element_blank(),
+    plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm"), # Marges réduites légèrement
+    strip.text = element_text(size = 9, face = "bold"), # Taille du texte des titres de facettes
+    strip.background = element_rect(fill = "lightgray", color = NA) # Arrière-plan des titres de facettes
+  ) +
+  geom_text(aes(label = Medals), vjust = -0.5, size = 2.5, show.legend = FALSE) + # Taille des labels numériques ajustée
+  coord_cartesian(ylim = c(0, max_medals_value * 1.2)) # Augmente l'étendue de 20% au-dessus du max pour plus d'espace
+```
+
+### Interpretation
+
+Initialement, nous avions posé l'hypothèse que les pays hôtes remporteraient un plus grand nombre de médailles, notamment d'or, grâce au soutien du public, à la familiarité avec l'environnement et, potentiellement, à une légère influence sur l'arbitrage. Les observations générales ont confirmé que les pays hôtes remportent en moyenne un nombre de médailles significativement plus élevé.
+
+Nuance de l'effet "boost" immédiat : Au-delà de la simple moyenne
+Cependant, cette moyenne générale peut être trompeuse. Le graphique de l'"Évolution des médailles totales des pays hôtes : Tendances avant et pendant l'accueil des JO" nous permet d'observer la performance individuelle de chaque pays hôte sur les trois éditions précédant l'accueil (12, 8 et 4 ans avant) et pendant l'année hôte. Cette granularité révèle une réalité plus complexe et nuance considérablement notre hypothèse initiale d'un "boost" systématique et toujours aussi prononcé.
+
+En effet, si un certain nombre de pays comme la Chine (Beijing, 2008), Etats-unis (Atlanta, 1996) ou le Japon (Tokyo, 2020) affichent clairement un pic de médailles durant l'année où ils ont été hôtes, pour d'autres, cette augmentation est moins spectaculaire ou s'inscrit dans une tendance déjà haussière. Il est crucial de noter que plusieurs pays hôtes étaient déjà des puissances sportives reconnues avant même d'accueillir les Jeux, remportant un nombre élevé de médailles lors des éditions précédentes (par exemple, les États-Unis, la Grande-Bretagne en 1908, ou l'Union Soviétique). Dans ces cas, le fait d'être hôte amplifie probablement une force déjà existante, plutôt que de créer une performance exceptionnelle à partir de rien.
+
+De plus, en observant les trajectoires individuelles, nous constatons que l'effet de "pic immédiat" n'est pas aussi universellement prononcé qu'on pourrait le croire. Si l'on compare strictement le nombre de médailles l'année hôte à la performance 4 ans avant, on constate que le gain n'est pas toujours majeur ou systématique. Cela remet en question l'idée qu'être hôte garantit un bond spectaculaire en termes de médailles pour tous les pays, indépendamment de leur niveau sportif initial. L'effet pays hôte, tel que perçu comme un "coup de pouce" garanti et uniforme, n'est donc pas forcément ce que l'on attendait. Il s'agit plutôt d'un facteur qui peut accentuer une performance existante ou créer un avantage dans des contextes spécifiques, mais sa manifestation varie grandement.
+
+Cette observation nous amène à une question essentielle pour la suite de notre analyse : si l'effet "boost" immédiat est plus nuancé que prévu et souvent lié à une force sportive préexistante, quelle est l'influence de l'accueil des Jeux sur le long terme ? Les investissements massifs en infrastructures, les programmes de développement sportif et l'enthousiasme généré par l'événement parviennent-ils à créer une tendance haussière durable pour le pays hôte ? Nous allons désormais explorer si cet héritage olympique se traduit par une performance sportive accrue sur les éditions futures, et si cela concerne particulièrement les pays qui n'étaient pas forcément des "géants" des médailles avant d'accueillir l'événement. L'objectif sera de déceler d'éventuels seuils ou des schémas de croissance post-olympique.
+
+### Question 4:  Influence après avoir été hôte (comparaison des moyennes avant et après); impacte sur le long terme
+```{r}
+# --- Étape 3 : Influence après avoir été hôte (comparaison des moyennes avant et après) ---
+
+# Objectif : Évaluer l'impact à long terme de l'accueil des JO en comparant
+# la moyenne des médailles remportées par un pays hôte sur plusieurs éditions
+# *avant* d'être hôte, et sur plusieurs éditions *après* avoir été hôte.
+# Cela permet de voir si l'investissement et les infrastructures ont un effet durable.
+
+# 1. Chargement des données et calcul du total des médailles
+medals <- read_csv("data/Summer Olympic Medals 1896 - 2020/summer_olympic_medals.csv", show_col_types = FALSE) %>%
+  mutate(Total_Medals = Gold + Silver + Bronze)
+
+# 2. Identifier les pays hôtes et les périodes pertinentes
+host_events <- medals %>%
+  filter(Country_Name == Host_country) %>%
+  distinct(Host_country, Host_city, Year) %>%
+  rename(Host_Year = Year) %>%
+  arrange(Host_Year) # S'assurer d'avoir un ordre chronologique
+
+# Créer un dataframe pour stocker les moyennes avant et après pour chaque pays hôte
+long_term_impact <- data.frame()
+
+for (i in 1:nrow(host_events)) {
+  current_host_country <- host_events$Host_country[i]
+  current_host_year <- host_events$Host_Year[i]
+  current_host_city <- host_events$Host_city[i]
+
+  # Période AVANT (ex: 4 éditions précédentes, donc 16 ans avant l'année hôte)
+  # Exclure l'année hôte elle-même de la période "avant"
+  years_before <- seq(current_host_year - 4, current_host_year - (4 * 4), by = -4)
+  medals_before <- medals %>%
+    filter(Country_Name == current_host_country, Year %in% years_before) %>%
+    pull(Total_Medals)
+
+  # Période APRÈS (ex: 4 éditions suivantes, donc 16 ans après l'année hôte)
+  # Exclure l'année hôte elle-même de la période "après"
+  years_after <- seq(current_host_year + 4, current_host_year + (4 * 4), by = 4)
+  medals_after <- medals %>%
+    filter(Country_Name == current_host_country, Year %in% years_after) %>%
+    pull(Total_Medals)
+
+  # Calculer les moyennes (s'assurer qu'il y a des données)
+  mean_before <- ifelse(length(medals_before) > 0, mean(medals_before, na.rm = TRUE), NA)
+  mean_after <- ifelse(length(medals_after) > 0, mean(medals_after, na.rm = TRUE), NA)
+
+  # Ajouter à notre dataframe de résultats
+  long_term_impact <- bind_rows(long_term_impact,
+                                data.frame(
+                                  Host_Country = current_host_country,
+                                  Host_City = current_host_city,
+                                  Host_Year = current_host_year,
+                                  Mean_Medals_Before = mean_before,
+                                  Mean_Medals_After = mean_after
+                                ))
+}
+
+# Filtrer les lignes où nous n'avons pas de données complètes (NA)
+long_term_impact_filtered <- long_term_impact %>%
+  filter(!is.na(Mean_Medals_Before) & !is.na(Mean_Medals_After))
+
+# Transformer en format "long" pour ggplot (pour les barres groupées)
+long_term_impact_pivot <- long_term_impact_filtered %>%
+  pivot_longer(
+    cols = c("Mean_Medals_Before", "Mean_Medals_After"),
+    names_to = "Period",
+    values_to = "Average_Medals"
+  ) %>%
+  mutate(
+    Period = factor(Period, levels = c("Mean_Medals_Before", "Mean_Medals_After"),
+                    labels = c("Moyenne Avant Hôte", "Moyenne Après Hôte")),
+    Host_Event_Label = paste0(Host_Country, " (", Host_City, ", ", Host_Year, ")")
+  )
+
+# 3. Visualisation : Graphique en barres groupées
+ggplot(long_term_impact_pivot, aes(x = Host_Event_Label, y = Average_Medals, fill = Period)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8), width = 0.7) +
+  labs(
+    title = "Impact à long terme de l'accueil des JO : Moyenne des médailles avant et après",
+    subtitle = "Comparaison de la moyenne des médailles totales (4 éditions avant vs 4 éditions après l'accueil des JO)",
+    x = "Pays Hôte (Ville, Année d'accueil)",
+    y = "Moyenne du nombre total de médailles",
+    fill = "Période"
+  ) +
+  scale_fill_manual(values = c("Moyenne Avant Hôte" = "#C0C0C0", "Moyenne Après Hôte" = "#FFD700")) + # Couleurs plus distinctes
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8), # Incliner les labels pour la lisibilité
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank()
+  ) +
+  geom_text(aes(label = round(Average_Medals, 1)), # Afficher les moyennes arrondies
+            position = position_dodge(width = 0.8),
+            vjust = -0.5, size = 3)
+
+
+```
+
+
+### Interpretation
+Nos analyses précédentes (Question 3) ont montré que le "boost" immédiat de médailles durant l'année où un pays est hôte n'est pas toujours aussi universel ou spectaculaire que l'on aurait pu l'imaginer. En observant les trajectoires individuelles, nous avons constaté que ce pic dépendait souvent de la force sportive préexistante du pays et que le gain n'était pas systématiquement majeur ou radical pour toutes les nations. Cette observation nous a poussé à explorer si l'impact des Jeux se manifestait plutôt sur le long terme.
+
+2. La confirmation d'un effet à long terme, mais fortement lié aux structures existantes :
+
+En examinant le graphique actuel, nous pouvons globalement observer que, pour de nombreux pays, la moyenne des médailles après avoir été hôte est effectivement supérieure à leur moyenne avant d'avoir accueilli les Jeux. Cela suggère qu'il y a bien un impact positif à long terme pour une majorité des nations organisatrices. L'investissement dans les infrastructures, la modernisation des équipements et l'élan national généré par l'organisation des Jeux semblent, dans l'ensemble, contribuer à maintenir, voire à améliorer, le niveau sportif des pays sur la durée.
+
+Cependant, la nuance cruciale réside dans le profil des pays qui bénéficient le plus de cet avantage durable. Le graphique met en lumière que ce sont majoritairement les nations qui possédaient déjà des structures sportives robustes et bien établies avant d'accueillir les Jeux qui parviennent à capitaliser sur cet événement pour maintenir ou accroître leur performance à long terme.
+
+Poursuite de la Croissance pour les "Grands" : Des exemples flagrants sont la Chine (Beijing, 2008), qui passe d'une moyenne de 56.2 à 83 médailles après l'accueil, ou les États-Unis (Los Angeles, 1984) avec une augmentation de 70 à 98.9 médailles. Ces pays étaient déjà des superpuissances sportives avec des programmes nationaux très structurés, des investissements continus dans le sport de haut niveau, et des politiques de détection et de formation des talents bien rodées. L'accueil des JO a pu leur fournir un catalyseur, une opportunité de moderniser et d'optimiser davantage leurs infrastructures et leurs programmes, amplifiant ainsi un succès déjà enraciné.
+
+Un Impact Plus Modéré pour les Nations Moins Établies : Pour d'autres pays, comme la France (Paris, 1900 et 1924), le Canada (Montréal, 1976), ou la Belgique (Anvers, 1920), la moyenne des médailles après l'accueil est très similaire, voire parfois légèrement inférieure, à celle d'avant. Cela indique que pour les nations qui n'avaient pas nécessairement des structures sportives d'élite aussi développées, l'investissement massif ponctuel lié à l'organisation des Jeux n'a pas suffi à créer une amélioration structurelle et durable des performances sportives au niveau élite. Les infrastructures construites peuvent servir à la population et au sport de masse, mais cela ne se traduit pas automatiquement par une augmentation significative du nombre de médailles olympiques à long terme.
+
+3. Facteurs Clés de la Durabilité (Confirmé par les recherches) :
+
+Les recherches et études sur l'héritage olympique (par exemple, celles menées par le CIO ou des institutions universitaires) confirment ce constat : l'impact à long terme des Jeux est complexe et dépend moins de l'événement lui-même que de la capacité du pays à transformer cet élan en une stratégie sportive nationale durable.
+
+Qualité des Structures Préexistantes : Un système sportif national fort, incluant des fédérations bien organisées, des centres d'entraînement performants, et des programmes de développement des jeunes talents, est un facteur déterminant.
+
+Investissement Stratégique Post-Jeux : La manière dont les infrastructures et les fonds sont gérés après les Jeux est cruciale. Une réaffectation intelligente et un entretien continu des installations sont nécessaires.
+
+Politiques Sportives Cohérentes : Les pays qui intègrent l'héritage olympique dans des politiques sportives nationales cohérentes et durables (développement de la base, soutien continu aux athlètes d'élite) ont de meilleures chances de voir une amélioration à long terme.
+
+Contexte Économique et Social : La capacité d'un pays à capitaliser sur l'élan des Jeux est également influencée par sa situation économique, sa stabilité politique et l'engagement général de sa population dans le sport.
+
+En conclusion, si l'accueil des Jeux Olympiques peut générer un pic de performance immédiat, l'impact sur la performance sportive à long terme est bien réel pour de nombreux pays, mais il est fortement modulé par leur niveau de développement structurel et leurs capacités d'investissement continu dans le sport de haut niveau. Ce défi de transformer un événement ponctuel en un bénéfice sportif durable est principalement relevé par les nations qui étaient déjà des forces sportives, capables de capitaliser sur l'élan olympique.
 
 ## 2. Existe-t-il une corrélation entre l'âge des athlètes et leur performance dans certaines disciplines
 
