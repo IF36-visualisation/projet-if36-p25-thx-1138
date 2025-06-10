@@ -995,3 +995,63 @@ ggplot(df_evolution, aes(x = Year, y = mean_weight, color = Sport)) +
 ### Interprétation
 
 Les graphiques montrent comment la taille et le poids moyens des athlètes évoluent selon les sports, en lien avec les exigences propres à chaque discipline. Par exemple, les rameurs sont généralement plus grands et plus lourds, ce qui correspond à la puissance nécessaire dans leur sport. À l’inverse, les gymnastes sont plus petits et légers, ce qui leur permet d’avoir un bon équilibre et de réaliser des mouvements techniques, avec une légère diminution de leur taille au fil du temps. Les nageurs, quant à eux deviennent de plus en plus grands, mais leur poids reste modéré pour faciliter la glisse dans l’eau. Les cyclistes et les skieurs de fond ont des tailles et des poids moyens plutôt stables, car ils ont besoin d’un équilibre entre endurance et puissance. Enfin, les athlètes en général montrent des valeurs assez constantes, probablement lié à la diversité des épreuves dans l’athlétisme nécessitant d'avoir un physique "hybride". En revanche on ne peut pas distinguer de tendance générale sur l'évolution du poids et de la taille des athlètes de manière générale au fil du temps.
+
+## 7. Analyse des villes hôtes
+
+Cette section examine la répartition géographique des villes ayant accueilli les Jeux Olympiques, afin d’identifier d’éventuels déséquilibres régionaux et leur évolution historique.
+Nous partons de l’hypothèse que les pays du Nord (Europe, Amérique du Nord, Asie de l’Est) ont été surreprésentés, tandis que l’Afrique, l’Amérique latine et l’Asie du Sud ont été peu sollicitées.
+Pour tester cette hypothèse, nous cartographierons les villes hôtes par année et type de Jeux (été/hiver), afin de repérer d’éventuelles concentrations géographiques et évaluer si la répartition s’est diversifiée avec le temps.
+
+### Question 1 : Y a-t-il une tendance géographique dans le choix des villes hôtes au fil des années ?
+
+Pour répondre à cette question, nous allons produire une carte du monde représentant les villes hôtes successives, avec un code couleur indiquant le type de Jeux (été/hiver) et une échelle de temps pour visualiser la chronologie. Cette visualisation permettra d’identifier s’il existe des zones privilégiées dans l’attribution des Jeux Olympiques, et si cette tendance évolue vers plus de diversité géographique au cours des décennies.
+
+```{r}
+# Chargement des bibliothèques nécessaires
+library(dplyr)
+library(ggplot2)
+library(maps)
+library(ggrepel)
+library(tidygeocoder)
+
+# Extraire la table des éditions des JO (une ville par année)
+df_host_cities <- df %>%
+  select(Year, City, Season, NOC) %>%
+  distinct()
+
+# Géocodage des villes pour obtenir les coordonnées géographiques
+coords_villes <- df_host_cities %>%
+  distinct(City) %>%
+  geocode(City, method = "osm", lat = lat, long = lon)
+
+# Joindre les coordonnées aux villes hôtes
+df_host_geo <- df_host_cities %>%
+  left_join(coords_villes, by = "City")
+
+# Base de la carte du monde
+world_map <- map_data("world")
+
+# Visualisation : carte avec points colorés par saison et dégradé temporel
+ggplot() +
+  geom_map(data = world_map, map = world_map,
+           aes(long, lat, map_id = region),
+           color = "gray80", fill = "gray95", size = 0.3) +
+  geom_point(data = df_host_geo,
+             aes(x = lon, y = lat, color = Season, size = Year),
+             alpha = 0.8) +
+  geom_text_repel(data = df_host_geo,
+                  aes(x = lon, y = lat, label = paste0(City, "\n", Year)),
+                  size = 3, max.overlaps = 10) +
+  scale_color_manual(values = c("Summer" = "#E69F00", "Winter" = "#56B4E9")) +
+  scale_size_continuous(range = c(2, 6)) +
+  theme_minimal() +
+  labs(
+    title = "Répartition géographique des villes hôtes des Jeux Olympiques",
+    subtitle = "Couleur selon la saison (été / hiver) | Taille selon l’année",
+    x = NULL, y = NULL,
+    color = "Saison", size = "Année"
+  ) +
+  theme(panel.grid = element_blank())
+```
+
+### Interprétation
