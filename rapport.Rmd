@@ -390,7 +390,11 @@ ggplot(host_performance, aes(x = Host, y = Total, fill = Host)) +
     y = "Nombre moyen de médailles",
     fill = "Pays hôte"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
 ```
 
 ### Interprétation
@@ -449,7 +453,7 @@ ggplot(medal_type_long_plot, aes(x = Medal_Type, y = Average_Count, fill = Host_
             vjust = -0.5, size = 3.5) + # Ajustement vertical pour éviter le chevauchement
   scale_fill_manual(values = c("Pays Hôte" = "#F8766D", "Pays Non-Hôte" = "#00BFC4")) + # Couleurs plus distinctes
   labs(
-    title = "Distribution moyenne des médailles par type : Pays Hôtes vs Pays Non-Hôtes",
+    title = "Distribution moyenne des médailles : Pays Hôtes vs Non-Hôtes",
     subtitle = "Nombre moyen de médailles (Or, Argent, Bronze) par catégorie (1896-2020)",
     x = "Type de Médaille",
     y = "Nombre moyen de médailles",
@@ -480,7 +484,7 @@ des compétitions
 
 ### Question 3: Évolution des médailles entre 4 ans avant et l'année hôte
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # 1. Chargement des données et calcul du total des médailles
 medals <- read_csv("data/Summer Olympic Medals 1896 - 2020/summer_olympic_medals.csv", show_col_types = FALSE) %>%
   mutate(Total_Medals = Gold + Silver + Bronze)
@@ -539,25 +543,25 @@ ggplot(host_medal_trend_extended, aes(x = Phase, y = Medals, group = 1)) + # gro
   geom_point(size = 3, color = "#00BFC4") + # Couleur fixe pour les points dans chaque facette
   geom_line(linewidth = 1, color = "#00BFC4") + # Couleur fixe pour les lignes dans chaque facette
   labs(
-    title = "Évolution des médailles totales des pays hôtes : Tendances avant et pendant l'accueil des JO",
-    subtitle = "Performance de chaque pays hôte aux Jeux Olympiques (3 éditions précédentes et Année Hôte)",
+    title = "Performances des pays avant vs pendant l'accueil des JO",
+    subtitle = "Médailles totales : 3 éditions avant et année hôte",
     x = "Période relative à l'accueil des Jeux",
     y = "Nombre total de médailles remportées"
   ) +
   facet_wrap(~ Host_Label, scales = "fixed", ncol = 4) + # Utilisation de facet_wrap pour séparer les graphiques
   theme_minimal(base_size = 10) + # Taille de base légèrement réduite pour les facettes
   theme(
-    plot.title = element_text(face = "bold", hjust = 0.5, size = 14),
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 16),
     plot.subtitle = element_text(hjust = 0.5, size = 10),
     axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
     axis.text.y = element_text(size = 8),
     legend.position = "none", # La légende n'est plus nécessaire car chaque graphique est étiqueté par sa facette
     panel.grid.major.x = element_blank(),
-    plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm"), # Marges réduites légèrement
+    plot.margin = unit(c(0, 0.5, 0.5, 0.5), "cm"), # Marges réduites légèrement
     strip.text = element_text(size = 9, face = "bold"), # Taille du texte des titres de facettes
     strip.background = element_rect(fill = "lightgray", color = NA) # Arrière-plan des titres de facettes
   ) +
-  geom_text(aes(label = Medals), vjust = -0.5, size = 2.5, show.legend = FALSE) + # Taille des labels numériques ajustée
+  geom_text(aes(label = Medals), vjust = -0.6, size = 2.5, show.legend = FALSE) + # Taille des labels numériques ajustée
   coord_cartesian(ylim = c(0, max_medals_value * 1.2)) # Augmente l'étendue de 20% au-dessus du max pour plus d'espace
 ```
 
@@ -575,7 +579,7 @@ De plus, en observant les trajectoires individuelles, nous constatons que l'effe
 Cette observation nous amène à une question essentielle pour la suite de notre analyse : si l'effet "boost" immédiat est plus nuancé que prévu et souvent lié à une force sportive préexistante, quelle est l'influence de l'accueil des Jeux sur le long terme ? Les investissements massifs en infrastructures, les programmes de développement sportif et l'enthousiasme généré par l'événement parviennent-ils à créer une tendance haussière durable pour le pays hôte ? Nous allons désormais explorer si cet héritage olympique se traduit par une performance sportive accrue sur les éditions futures, et si cela concerne particulièrement les pays qui n'étaient pas forcément des "géants" des médailles avant d'accueillir l'événement. L'objectif sera de déceler d'éventuels seuils ou des schémas de croissance post-olympique.
 
 ### Question 4:  Influence après avoir été hôte (comparaison des moyennes avant et après); impacte sur le long terme
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # --- Étape 3 : Influence après avoir été hôte (comparaison des moyennes avant et après) ---
 
 # Objectif : Évaluer l'impact à long terme de l'accueil des JO en comparant
@@ -846,7 +850,7 @@ summer_athletes_sex <- athletes %>%
 
 ggplot(summer_athletes_sex, aes(x = Year, y = n, fill = Sex)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Nombre d'hommes (M) et de femmes (F) athlètes par édition des jeux d'été") +
+  labs(title = "Nombre d'hommes et de femmes athlètes par édition des jeux d'été") +
   theme_minimal()
 ```
 
@@ -867,7 +871,7 @@ Il semble également y avoir eu une grande accélération dans cette réduction 
 
 ### Question 2 : Évolution des performances par sexe
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
 summer_medalists_sex <- medalists %>%
   filter(Season == "Summer" )%>%
   group_by(Year) %>%
@@ -875,11 +879,11 @@ summer_medalists_sex <- medalists %>%
 
 ggplot(summer_medalists_sex, aes(x = Year, y = n, fill = Sex)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés par édition des jeux d'été") +
+  labs(title = "Nombre d'hommes et de femmes médaillés par édition des jeux d'été") +
   theme_minimal()
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
 
 summer_medals_sex <- medalists %>%
   filter(Season == "Summer" )%>%
@@ -888,17 +892,17 @@ summer_medals_sex <- medalists %>%
 
 ggplot(summer_medals_sex %>% filter(Medal == "Gold"), aes(x = Year, y = n, fill = Sex)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés d'or par édition des jeux d'été") +
+  labs(title = "Nombre d'hommes et de femmes médaillés d'or par édition des jeux d'été") +
   theme_minimal()
 
 ggplot(summer_medals_sex %>% filter(Medal == "Silver"), aes(x = Year, y = n, fill = Sex)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés d'argent par édition des jeux d'été") +
+  labs(title = "Nombre d'hommes et de femmes médaillés d'argent par édition des jeux d'été") +
   theme_minimal()
 
 ggplot(summer_medals_sex %>% filter(Medal == "Bronze"), aes(x = Year, y = n, fill = Sex)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Nombre d'hommes (M) et de femmes (F) médaillés de bronze par édition des jeux d'été") +
+  labs(title = "Nombre d'hommes et de femmes médaillés de bronze par édition des jeux d'été") +
   theme_minimal()
 ```
 
@@ -922,7 +926,7 @@ Pour y répondre, nous utiliserons deux types de visualisations :
 - Un graphique en barres comparant les athlètes les plus titrés dans les Jeux d'été et d'hiver, avec une mise en évidence de leurs disciplines respectives.
 - Un nuage de points représentant la distribution dans le temps des athlètes ayant obtenu le plus de médailles, afin d'observer leur répartition historique et potentiellement dégager une tendance chronologique
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
 # Lecture des données été
 data <- read_csv("data/Olympics_124_years_Dataset/Athletes_summer_games.csv")
 
@@ -954,17 +958,22 @@ ggplot(medals_long, aes(x = Count, y = Name_Sport, fill = Medal_Type)) +
   geom_col(position = "stack", width = 0.7) +
   scale_fill_manual(values = c("Gold" = "#FFD700", "Silver" = "#C0C0C0", "Bronze" = "#CD7F32")) +
   labs(
-    title = "Les 20 athlètes les plus médaillés aux Jeux olympiques d'été",
+    title = "Les 20 athlètes les plus médaillés aux JO d'été",
     subtitle = "Répartition par type de médaille (et sport)",
     x = "Nombre de médailles",
     y = "Athlète (Sport)",
     fill = "Type de médaille"
   ) +
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
+  theme(
+    plot.title = element_text(hjust = 1, face = "bold"), 
+    legend.position = "bottom",
+    plot.subtitle = element_text(hjust = 0.5),
+    plot.margin = margin(0, 0, 0, -15, "pt")
+  )
 
 ```
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
 # Lecture des données hiver
 data <- read_csv("data/Olympics_124_years_Dataset/Athletes_winter_games.csv")
 
@@ -996,14 +1005,19 @@ ggplot(medals_long, aes(x = Count, y = Name_Sport, fill = Medal_Type)) +
   geom_col(position = "stack", width = 0.7) +
   scale_fill_manual(values = c("Gold" = "#FFD700", "Silver" = "#C0C0C0", "Bronze" = "#CD7F32")) +
   labs(
-    title = "Les 20 athlètes les plus médaillés aux Jeux olympiques d'hiver",
+    title = "Les 20 athlètes les plus médaillés aux JO d'hiver",
     subtitle = "Répartition par type de médaille (et sport)",
     x = "Nombre de médailles",
     y = "Athlète (Sport)",
     fill = "Type de médaille"
   ) +
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
+  theme(
+    plot.title = element_text(hjust = 1, face = "bold"), 
+    legend.position = "bottom",
+    plot.subtitle = element_text(hjust = 0.5),
+    plot.margin = margin(0, 0, 0, -15, "pt")
+  )
 
 ```
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -1037,14 +1051,18 @@ ggplot(athlete_summary, aes(x = last_year, y = total_medals, color = Season)) +
   geom_point(size = 3, alpha = 0.7) +
   scale_color_manual(values = c("Summer" = "#F8766D", "Winter" = "#00BFC4")) +
   labs(
-    title = "Nombre de médailles en fonction de l'année de la dernière médaille",
-    subtitle = "Athlètes avec au moins 10 médailles (Jeux d'été en jaune, Jeux d'hiver en bleu)",
+    title = "Médailles selon l'année de la dernière récompense",
+    subtitle = "Athlètes avec au moins 10 médailles",
     x = "Année de la dernière médaille",
     y = "Nombre total de médailles",
     color = "Saison"
   ) +
   theme_minimal(base_size = 14) +
-  theme(legend.position = "bottom", plot.title = element_text(face = "bold"))
+  theme(
+    legend.position = "bottom", 
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
 
 ```
 
@@ -1077,7 +1095,7 @@ ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
   geom_point(color = "#F8766D") +
   scale_x_continuous(breaks = jo_years) +
   labs(
-    title = "Nombre d'athlètes uniques par édition des Jeux Olympiques d'été",
+    title = "Nombre d'athlètes uniques par édition des JO d'été",
     x = "Année",
     y = "Nombre d'athlètes uniques"
   ) +
@@ -1109,7 +1127,7 @@ ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
   geom_point(color = "#00BFC4") +
   scale_x_continuous(breaks = jo_years) +
   labs(
-    title = "Nombre d'athlètes uniques par édition des Jeux Olympiques d'hiver",
+    title = "Nombre d'athlètes uniques par édition des JO d'hiver",
     x = "Année",
     y = "Nombre d'athlètes uniques"
   ) +
@@ -1162,7 +1180,7 @@ ggplot(countries_year_season, aes(x = Year, y = nb_pays, fill = Season)) +
            position = position_dodge2(width = 0.9, preserve = "single"), 
            width = 0.4) +
   labs(
-    title = "Nombre de pays participants aux Jeux Olympiques par édition (été vs hiver)",
+    title = "Nombre de pays participants aux JO par édition (été vs hiver)",
     x = "Année",
     y = "Nombre de pays",
     fill = "Saison"
@@ -1259,7 +1277,7 @@ Pour tester cette hypothèse, nous cartographierons les villes hôtes par année
 
 Pour répondre à cette question, nous allons produire une carte du monde représentant les villes hôtes successives, avec un code couleur indiquant le type de Jeux (été/hiver) et une échelle de temps pour visualiser la chronologie. Cette visualisation permettra d’identifier s’il existe des zones privilégiées dans l’attribution des Jeux Olympiques, et si cette tendance évolue vers plus de diversité géographique au cours des décennies.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # Chargement des bibliothèques nécessaires
 library(dplyr)
 library(ggplot2)
