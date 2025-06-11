@@ -1,5 +1,5 @@
 ---
-title: "Analyse des Jeux Olympique"
+title: "Analyse des Jeux Olympiques"
 author: "THX1138"
 date: "2025-04-23"
 output:
@@ -382,6 +382,7 @@ host_performance <- medals %>%
 # Visualisation
 ggplot(host_performance, aes(x = Host, y = Total, fill = Host)) +
   geom_col(width = 0.5) +
+  scale_fill_manual(values = c("Host" = "#F8766D", "Non-host" = "#00BFC4")) +
   labs(
     title = "Performance des pays hôtes vs non-hôtes",
     subtitle = "Moyenne du nombre total de médailles remportées",
@@ -446,7 +447,7 @@ ggplot(medal_type_long_plot, aes(x = Medal_Type, y = Average_Count, fill = Host_
   geom_text(aes(label = sprintf("%.1f", Average_Count)),
             position = position_dodge(width = 0.7), # Positionnement des labels au-dessus des barres
             vjust = -0.5, size = 3.5) + # Ajustement vertical pour éviter le chevauchement
-  scale_fill_manual(values = c("Pays Hôte" = "#69b3a2", "Pays Non-Hôte" = "#404080")) + # Couleurs plus distinctes
+  scale_fill_manual(values = c("Pays Hôte" = "#F8766D", "Pays Non-Hôte" = "#00BFC4")) + # Couleurs plus distinctes
   labs(
     title = "Distribution moyenne des médailles par type : Pays Hôtes vs Pays Non-Hôtes",
     subtitle = "Nombre moyen de médailles (Or, Argent, Bronze) par catégorie (1896-2020)",
@@ -535,8 +536,8 @@ max_medals_value <- max(host_medal_trend_extended$Medals, na.rm = TRUE)
 
 # 3. Visualisation : Graphique en ligne (3 éditions avant vs Hôte)
 ggplot(host_medal_trend_extended, aes(x = Phase, y = Medals, group = 1)) + # group = 1 car chaque facette a une seule ligne
-  geom_point(size = 3, color = "steelblue") + # Couleur fixe pour les points dans chaque facette
-  geom_line(linewidth = 1, color = "steelblue") + # Couleur fixe pour les lignes dans chaque facette
+  geom_point(size = 3, color = "#00BFC4") + # Couleur fixe pour les points dans chaque facette
+  geom_line(linewidth = 1, color = "#00BFC4") + # Couleur fixe pour les lignes dans chaque facette
   labs(
     title = "Évolution des médailles totales des pays hôtes : Tendances avant et pendant l'accueil des JO",
     subtitle = "Performance de chaque pays hôte aux Jeux Olympiques (3 éditions précédentes et Année Hôte)",
@@ -657,7 +658,7 @@ ggplot(long_term_impact_pivot, aes(x = Host_Event_Label, y = Average_Medals, fil
     y = "Moyenne du nombre total de médailles",
     fill = "Période"
   ) +
-  scale_fill_manual(values = c("Moyenne Avant Hôte" = "#C0C0C0", "Moyenne Après Hôte" = "#FFD700")) + # Couleurs plus distinctes
+  scale_fill_manual(values = c("Moyenne Avant Hôte" = "#00BFC4", "Moyenne Après Hôte" = "#F8766D")) + # Couleurs plus distinctes
   theme_minimal(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold", hjust = 0.5),
@@ -746,7 +747,7 @@ age_top_bottom <- age_by_sport %>%
 
 # Visualisation
 ggplot(age_top_bottom, aes(x = reorder(Sport, Mean_Age), y = Mean_Age)) +
-  geom_col(fill = "steelblue") +
+  geom_col(fill = "#00BFC4") +
   coord_flip() +
   labs(
     title = "Âge moyen des médaillés (Top 10 plus jeunes et Top 10 plus âgés)",
@@ -1034,7 +1035,7 @@ athlete_summary <- medals_data %>%
 # Visualisation
 ggplot(athlete_summary, aes(x = last_year, y = total_medals, color = Season)) +
   geom_point(size = 3, alpha = 0.7) +
-  scale_color_manual(values = c("Summer" = "goldenrod", "Winter" = "steelblue")) +
+  scale_color_manual(values = c("Summer" = "#F8766D", "Winter" = "#00BFC4")) +
   labs(
     title = "Nombre de médailles en fonction de l'année de la dernière médaille",
     subtitle = "Athlètes avec au moins 10 médailles (Jeux d'été en jaune, Jeux d'hiver en bleu)",
@@ -1072,8 +1073,8 @@ jo_years <- sort(unique(summer_participants$Year))
 
 # Tracer la courbe pour Summer avec ticks personnalisés sur l'axe x
 ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
-  geom_line(color = "orange", size = 1.2) +
-  geom_point(color = "orange") +
+  geom_line(color = "#F8766D", size = 1.2) +
+  geom_point(color = "#F8766D") +
   scale_x_continuous(breaks = jo_years) +
   labs(
     title = "Nombre d'athlètes uniques par édition des Jeux Olympiques d'été",
@@ -1104,8 +1105,8 @@ jo_years <- sort(unique(summer_participants$Year))
 
 # Tracer la courbe pour Summer avec ticks personnalisés sur l'axe x
 ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
-  geom_line(color = "blue", size = 1.2) +
-  geom_point(color = "blue") +
+  geom_line(color = "#00BFC4", size = 1.2) +
+  geom_point(color = "#00BFC4") +
   scale_x_continuous(breaks = jo_years) +
   labs(
     title = "Nombre d'athlètes uniques par édition des Jeux Olympiques d'hiver",
@@ -1166,7 +1167,7 @@ ggplot(countries_year_season, aes(x = Year, y = nb_pays, fill = Season)) +
     y = "Nombre de pays",
     fill = "Saison"
   ) +
-  scale_fill_manual(values = c("Summer" = "orange", "Winter" = "blue")) +
+  scale_fill_manual(values = c("Summer" = "#F8766D", "Winter" = "#00BFC4")) +
   scale_x_discrete(breaks = years_to_label) +
   theme_minimal() +
   theme(
@@ -1294,7 +1295,7 @@ ggplot() +
   geom_text_repel(data = df_host_geo,
                   aes(x = lon, y = lat, label = paste0(City, "\n", Year)),
                   size = 3, max.overlaps = 10) +
-  scale_color_manual(values = c("Summer" = "#E69F00", "Winter" = "#56B4E9")) +
+  scale_color_manual(values = c("Summer" = "#F8766D", "Winter" = "#00BFC4")) +
   scale_size_continuous(range = c(2, 6)) +
   theme_minimal() +
   labs(
