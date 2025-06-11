@@ -322,7 +322,7 @@ ces facteurs pour garantir la pertinence et la fiabilité des
 conclusions.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 library(dplyr)
 library(ggplot2)
 library(readr)
@@ -358,7 +358,7 @@ serrés.
 
 ### Question 1 : Correlation entre pays hotes et nombre de médailles
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Lecture des données
 medals <- read_csv("data/Summer Olympic Medals 1896 - 2020/summer_olympic_medals.csv", show_col_types = FALSE)
 
@@ -407,7 +407,7 @@ ce niveau.
 
 ### Question 2 : Distribution par type de médaille
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # 1. Chargement des données
 medals <- read_csv("data/Summer Olympic Medals 1896 - 2020/summer_olympic_medals.csv", show_col_types = FALSE)
 
@@ -479,7 +479,7 @@ des compétitions
 
 ### Question 3: Évolution des médailles entre 4 ans avant et l'année hôte
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # 1. Chargement des données et calcul du total des médailles
 medals <- read_csv("data/Summer Olympic Medals 1896 - 2020/summer_olympic_medals.csv", show_col_types = FALSE) %>%
   mutate(Total_Medals = Gold + Silver + Bronze)
@@ -574,7 +574,7 @@ De plus, en observant les trajectoires individuelles, nous constatons que l'effe
 Cette observation nous amène à une question essentielle pour la suite de notre analyse : si l'effet "boost" immédiat est plus nuancé que prévu et souvent lié à une force sportive préexistante, quelle est l'influence de l'accueil des Jeux sur le long terme ? Les investissements massifs en infrastructures, les programmes de développement sportif et l'enthousiasme généré par l'événement parviennent-ils à créer une tendance haussière durable pour le pays hôte ? Nous allons désormais explorer si cet héritage olympique se traduit par une performance sportive accrue sur les éditions futures, et si cela concerne particulièrement les pays qui n'étaient pas forcément des "géants" des médailles avant d'accueillir l'événement. L'objectif sera de déceler d'éventuels seuils ou des schémas de croissance post-olympique.
 
 ### Question 4:  Influence après avoir été hôte (comparaison des moyennes avant et après); impacte sur le long terme
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # --- Étape 3 : Influence après avoir été hôte (comparaison des moyennes avant et après) ---
 
 # Objectif : Évaluer l'impact à long terme de l'accueil des JO en comparant
@@ -717,7 +717,7 @@ seraient plus âgés.
 
 ### Question 1 : Âge moyen par sport
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Lecture des données
 athletes <- read_csv("data/Olympics Althlete Events Analysis/athlete_events.csv", show_col_types = FALSE)
 
@@ -787,7 +787,7 @@ On pourrait s'attendre à ce que les trois athlètes montant sur le podium
 
 ### Question 2 : Distribution âge par type de médaille
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Définir des couleurs classiques pour les médailles
 medal_colors <- c("Gold" = "#FFD700",    # Or
                   "Silver" = "#C0C0C0",  # Argent
@@ -836,7 +836,7 @@ impactant ces disparités et leurs évolutions.
 
 ### Question 1 : Évolution des participations par sexe
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # On prends les athlètes ayant participé aux jeux d'été
 summer_athletes_sex <- athletes %>%
   filter(Season == "Summer" )%>%
@@ -866,7 +866,7 @@ Il semble également y avoir eu une grande accélération dans cette réduction 
 
 ### Question 2 : Évolution des performances par sexe
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 summer_medalists_sex <- medalists %>%
   filter(Season == "Summer" )%>%
   group_by(Year) %>%
@@ -878,7 +878,7 @@ ggplot(summer_medalists_sex, aes(x = Year, y = n, fill = Sex)) +
   theme_minimal()
 ```
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 summer_medals_sex <- medalists %>%
   filter(Season == "Summer" )%>%
@@ -921,7 +921,7 @@ Pour y répondre, nous utiliserons deux types de visualisations :
 - Un graphique en barres comparant les athlètes les plus titrés dans les Jeux d'été et d'hiver, avec une mise en évidence de leurs disciplines respectives.
 - Un nuage de points représentant la distribution dans le temps des athlètes ayant obtenu le plus de médailles, afin d'observer leur répartition historique et potentiellement dégager une tendance chronologique
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Lecture des données été
 data <- read_csv("data/Olympics_124_years_Dataset/Athletes_summer_games.csv")
 
@@ -963,7 +963,7 @@ ggplot(medals_long, aes(x = Count, y = Name_Sport, fill = Medal_Type)) +
   theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
 
 ```
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Lecture des données hiver
 data <- read_csv("data/Olympics_124_years_Dataset/Athletes_winter_games.csv")
 
@@ -1005,7 +1005,7 @@ ggplot(medals_long, aes(x = Count, y = Name_Sport, fill = Medal_Type)) +
   theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
 
 ```
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Chargement des deux jeux de données
 summer <- read_csv("data/Olympics_124_years_Dataset/Athletes_summer_games.csv")
 winter <- read_csv("data/Olympics_124_years_Dataset/Athletes_winter_games.csv")
@@ -1046,6 +1046,7 @@ ggplot(athlete_summary, aes(x = last_year, y = total_medals, color = Season)) +
   theme(legend.position = "bottom", plot.title = element_text(face = "bold"))
 
 ```
+
 ### Interpretation
 
 Notre analyse met en lumière une forte concentration des athlètes les plus titrés dans quelques disciplines spécifiques. Aux Jeux d'été, la natation (35 épreuves à Paris 2024) et la gymnastique (18 épreuves artistiques) se distinguent : ces sports offrent de nombreuses opportunités de médailles, souvent accessibles à un même athlète lors d’une seule édition, contrairement à l’athlétisme où la spécialisation limite ce cumul. Du côté des Jeux d’hiver, ce sont le ski de fond (12 épreuves) et le patinage de vitesse (14 épreuves) qui dominent pour les mêmes raisons : formats répétitifs et participation multiple possible. On constate également que le nombre total de médailles d’été est nettement supérieur, ce qui s’explique par un programme bien plus riche (329 épreuves à Paris 2024 contre 109 en hiver).Sur le plan historique, les athlètes comptant au moins 10 médailles apparaissent majoritairement à partir des années 1950, en lien avec l’augmentation progressive du nombre d’épreuves : environ 150 épreuves en 1952, 195 en 1972, 271 en 2000, et 329 en 2024. Cette expansion du programme olympique a multiplié les occasions de médailles et favorisé l’émergence de palmarès impressionnants. Enfin, Michael Phelps reste l’athlète le plus décoré de l’histoire, avec 28 médailles, illustrant parfaitement les conditions favorables offertes par la natation pour bâtir un palmarès exceptionnel.
@@ -1056,7 +1057,7 @@ Dans cette étude, nous nous intéressons à l’évolution de la participation 
 
 Nous partons de plusieurs hypothèses. D’une part, nous supposons que le nombre de participants a globalement augmenté au fil du temps, notamment en raison de l’augmentation du nombre d’épreuves et de pays engagés. D’autre part, nous anticipons des variations liées à des événements extra-sportifs, comme des boycotts ou des conflits politiques, qui ont pu affecter certaines éditions.
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Charger les données
 data <- read_csv("data/Olympics Althlete Events Analysis/athlete_events.csv")
 
@@ -1088,7 +1089,7 @@ ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
 
 ```
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Charger les données
 data <- read_csv("data/Olympics Althlete Events Analysis/athlete_events.csv")
 
@@ -1130,7 +1131,7 @@ L’évolution du nombre de participants aux Jeux Olympiques d’été est globa
 
 On remarque une évolution similaire pour les jeux d'hivers
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 
 library(tidyverse)
@@ -1192,7 +1193,7 @@ Nous formulons l’hypothèse que les exigences physiques propres à chaque spor
 Nous supposons également que les standards physiques ont évolué au fil des décennies, en lien avec la professionnalisation croissante du sport et les avancées en matière de préparation physique.
 Pour tester ces hypothèses, nous allons visualiser l’évolution de la taille moyenne et du poids moyen des athlètes par discipline et par année, à l’aide de line graphs. Ces visualisations permettront d’identifier les tendances globales ainsi que les différences entre sports.
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Chargement des données
 df <- read.csv("data/Olympics Althlete Events Analysis/athlete_events.csv")
 
@@ -1257,7 +1258,7 @@ Pour tester cette hypothèse, nous cartographierons les villes hôtes par année
 
 Pour répondre à cette question, nous allons produire une carte du monde représentant les villes hôtes successives, avec un code couleur indiquant le type de Jeux (été/hiver) et une échelle de temps pour visualiser la chronologie. Cette visualisation permettra d’identifier s’il existe des zones privilégiées dans l’attribution des Jeux Olympiques, et si cette tendance évolue vers plus de diversité géographique au cours des décennies.
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Chargement des bibliothèques nécessaires
 library(dplyr)
 library(ggplot2)
