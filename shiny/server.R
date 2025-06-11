@@ -1,5 +1,8 @@
 library(shinydashboard)
 library(shiny)
+library(readr)
+library(magrittr)
+library(tidyverse)
 
 # Chargement des données
 athletes <- read_csv("../data/Olympics Althlete Events Analysis/athlete_events.csv", show_col_types = FALSE)
