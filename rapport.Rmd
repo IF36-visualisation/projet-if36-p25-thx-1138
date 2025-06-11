@@ -1116,9 +1116,8 @@ ggplot(summer_participants, aes(x = Year, y = nb_participants)) +
     axis.text.x = element_text(angle = 45, hjust = 1)  # incliner les labels pour mieux lire
   )
 
-
-
 ```
+
 ### Interpretation
 
 L’évolution du nombre de participants aux Jeux Olympiques d’été est globalement à la hausse au fil du temps, reflétant l’expansion du mouvement olympique et la multiplication des pays et disciplines représentés. Cependant, on observe trois baisses marquées en 1932, 1956 et 1980, qui s’expliquent principalement par des contextes historiques et géopolitiques spécifiques:
@@ -1130,6 +1129,7 @@ L’évolution du nombre de participants aux Jeux Olympiques d’été est globa
 - 1980 (Moscou) : Ce fut l’année du boycott massif mené par les États-Unis et plusieurs de leurs alliés, en protestation contre l’invasion soviétique de l’Afghanistan. Ce boycott a provoqué une baisse importante du nombre de participants, surtout des pays occidentaux.
 
 On remarque une évolution similaire pour les jeux d'hivers
+
 ```{r}
 
 
@@ -1190,7 +1190,7 @@ Certains pics dans le nombre de pays correspondent à des périodes historiques 
 Dans cette section, nous nous intéressons aux caractéristiques physiques des athlètes olympiques, plus précisément à l’évolution de leur taille et de leur poids au fil du temps et selon les disciplines sportives.
 Nous formulons l’hypothèse que les exigences physiques propres à chaque sport influencent fortement la morphologie moyenne des athlètes. Par exemple, nous nous attendons à ce que les disciplines de force (comme l’haltérophilie) présentent des athlètes plus lourds, tandis que les disciplines artistiques ou d’endurance (comme la gymnastique ou la course de fond) affichent des gabarits plus légers et/ou plus petits.
 Nous supposons également que les standards physiques ont évolué au fil des décennies, en lien avec la professionnalisation croissante du sport et les avancées en matière de préparation physique.
-Pour tester ces hypothèses, nous allons visualiser l’évolution de la taille moyenne et du poids moyen des athlètes par discipline et par année, à l’aide de graphiques line chart. Ces visualisations permettront d’identifier les tendances globales ainsi que les différences entre sports.
+Pour tester ces hypothèses, nous allons visualiser l’évolution de la taille moyenne et du poids moyen des athlètes par discipline et par année, à l’aide de line graphs. Ces visualisations permettront d’identifier les tendances globales ainsi que les différences entre sports.
 
 ```{r}
 # Chargement des données
