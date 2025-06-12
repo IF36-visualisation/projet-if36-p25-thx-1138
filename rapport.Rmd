@@ -1323,60 +1323,69 @@ Ainsi, bien que certaines disciplines montrent une uniformisation de la taille, 
 
 ## 7. Analyse des villes hôtes
 
-Cette section examine la répartition géographique des villes ayant accueilli les Jeux Olympiques, afin d’identifier d’éventuels déséquilibres régionaux et leur évolution historique.
+Cette section examine la répartition géographique des villes ayant accueilli les Jeux Olympiques, afin d’identifier d’éventuels déséquilibres régionaux.
 Nous partons de l’hypothèse que les pays du Nord (Europe, Amérique du Nord, Asie de l’Est) ont été surreprésentés, tandis que l’Afrique, l’Amérique latine et l’Asie du Sud ont été peu sollicitées.
-Pour tester cette hypothèse, nous cartographierons les villes hôtes par année et type de Jeux (été/hiver), afin de repérer d’éventuelles concentrations géographiques et évaluer si la répartition s’est diversifiée avec le temps.
+Pour tester cette hypothèse, nous cartographierons les villes hôtes par type de Jeux (été/hiver) et nombre de fois qu'elles ont été hôte afin de repérer d’éventuelles concentrations géographiques.
 
 ### Question 1 : Y a-t-il une tendance géographique dans le choix des villes hôtes au fil des années ?
 
-Pour répondre à cette question, nous allons produire une carte du monde représentant les villes hôtes successives, avec un code couleur indiquant le type de Jeux (été/hiver) et une échelle de temps pour visualiser la chronologie. Cette visualisation permettra d’identifier s’il existe des zones privilégiées dans l’attribution des Jeux Olympiques, et si cette tendance évolue vers plus de diversité géographique au cours des décennies.
+Pour répondre à cette question, nous allons produire une carte du monde représentant les villes hôtes des Jeux Olympiques, avec un code couleur indiquant le type de Jeux (été/hiver) et la taille des points indiquant le nombre de fois qu'une ville a été hôte. Cette visualisation permettra d'identifier s'il existe des zones privilégiées dans l'attribution des Jeux Olympiques et si cette tendance évolue vers plus de diversité géographique au cours des décennies.
 
 ```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # Chargement des bibliothèques nécessaires
-library(dplyr)
-library(ggplot2)
 library(maps)
 library(ggrepel)
 library(tidygeocoder)
 
-# Extraire la table des éditions des JO (une ville par année)
+# Charger les données
+df <- read.csv("data/Olympics Althlete Events Analysis/athlete_events.csv")
+
+# Extraire la table des éditions des JO, en s'assurant qu'une ville est comptée une fois par année
 df_host_cities <- df %>%
   select(Year, City, Season, NOC) %>%
-  distinct()
+  distinct(Year, City, Season, .keep_all = TRUE)
+
+# Compter le nombre de fois où chaque ville a été hôte
+df_host_counts <- df_host_cities %>%
+  group_by(City) %>%
+  summarise(HostCount = n(), Season = first(Season), .groups = "drop")
 
 # Géocodage des villes pour obtenir les coordonnées géographiques
-coords_villes <- df_host_cities %>%
+coords_villes <- df_host_counts %>%
   distinct(City) %>%
   geocode(City, method = "osm", lat = lat, long = lon)
 
-# Joindre les coordonnées aux villes hôtes
-df_host_geo <- df_host_cities %>%
+# Joindre les coordonnées et les comptes aux villes hôtes
+df_host_geo <- df_host_counts %>%
   left_join(coords_villes, by = "City")
 
 # Base de la carte du monde
 world_map <- map_data("world")
 
-# Visualisation : carte avec points colorés par saison et dégradé temporel
+# Visualisation : carte avec points colorés par saison et taille selon le nombre d'accueil
 ggplot() +
   geom_map(data = world_map, map = world_map,
            aes(long, lat, map_id = region),
            color = "gray80", fill = "gray95", size = 0.3) +
   geom_point(data = df_host_geo,
-             aes(x = lon, y = lat, color = Season, size = Year),
+             aes(x = lon, y = lat, color = Season, size = HostCount),
              alpha = 0.8) +
-  geom_text_repel(data = df_host_geo,
-                  aes(x = lon, y = lat, label = paste0(City, "\n", Year)),
-                  size = 3, max.overlaps = 10) +
   scale_color_manual(values = c("Summer" = "#F8766D", "Winter" = "#00BFC4")) +
-  scale_size_continuous(range = c(2, 6)) +
+  scale_size_continuous(range = c(2, 10), name = "Nombre de fois hôte") +
   theme_minimal() +
   labs(
     title = "Répartition géographique des villes hôtes des Jeux Olympiques",
-    subtitle = "Couleur selon la saison (été / hiver) | Taille selon l’année",
+    subtitle = "Couleur selon la saison (été / hiver) | Taille selon le nombre de fois hôte",
     x = NULL, y = NULL,
-    color = "Saison", size = "Année"
+    color = "Saison"
   ) +
   theme(panel.grid = element_blank())
 ```
 
 ### Interprétation
+
+La carte met en évidence une concentration marquée des Jeux Olympiques dans les pays du Nord, notamment en Europe de l’Ouest, en Amérique du Nord et au Japon. Cette répartition n’est pas due au hasard : elle reflète la capacité logistique, économique et politique de certains pays à organiser un événement d’une telle ampleur. Accueillir les Jeux suppose des infrastructures sportives modernes, des réseaux de transport efficaces, une stabilité politique, et un budget conséquent. Historiquement, seuls les pays industrialisés répondaient à ces exigences.
+
+Les villes comme Paris, Londres ou Los Angeles apparaissent à plusieurs reprises, ce qui montre une tendance à réattribuer les Jeux à des villes déjà expérimentées. À l’inverse, l’Afrique est totalement absente, et l’Amérique du Sud n’est représentée que par Rio en 2016. Cela illustre un déséquilibre persistant, où les critères d’attribution favorisent les pays les plus riches et les mieux équipés, au détriment d’une véritable diversité géographique.
+Par ailleurs, cet aspect n'est pas sur le point de changer puisque les derniers jeux se sont déroulés à Paris et les prochains se dérouleront à Los Angeles.
+
