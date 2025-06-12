@@ -268,7 +268,7 @@ Voici les questions que nous souhaitons explorer à travers ces données :
 
 -   **Évolution de la participation** : Comment le nombre d'athlètes et
     de pays participants a-t-il évolué au fil des Jeux Olympiques ?
--   **Analyse démographique** : Quelle est la répartition par sexe, âge,
+-   **Analyse morphologique** : Quelle est la répartition par
     taille et poids des athlètes au fil du temps et selon les
     disciplines ?
 -   **Performance des pays** : Quels pays ont remporté le plus de
@@ -825,8 +825,11 @@ Le graphique présente la distribution de l'âge des athlètes médaillés
 aux Jeux Olympiques (de 1896 à 2020) selon le type de médaille remportée
 (bronze, argent, or).
 
-On observe que : - La majorité des athlètes médaillés ont entre 20 et 30
-ans, avec un pic autour de 23 ans. - La forme de la distribution est
+On observe que :
+
+- La majorité des athlètes médaillés ont entre 20 et 30
+ans, avec un pic autour de 23 ans. 
+- La forme de la distribution est
 très similaire pour les trois types de médailles : bronze, argent et or.
 
 Le graphique suggère donc que, dans une même épreuve, les trois athlètes
@@ -1205,10 +1208,12 @@ Pics et creux dans la participation
 
 Certains pics dans le nombre de pays correspondent à des périodes historiques majeures. Par exemple, la fin de l’Union soviétique a vu l’apparition de nombreux nouveaux États participants. À l’inverse, des creux correspondent souvent à des boycotts politiques, comme en 1980 et 1984, où des groupes de pays ont refusé de participer en raison de tensions internationales.Enfin, les premières éditions des Jeux comptaient naturellement peu de pays, car le mouvement était alors plus restreint.
 
-## 6. Analyse démographique
+## 6. Analyse morphologique
+
+### Question 1 : Peut-on observer une tendance concernant l'évolution de la taille et le poids des athlètes ?
 
 Dans cette section, nous nous intéressons aux caractéristiques physiques des athlètes olympiques, plus précisément à l’évolution de leur taille et de leur poids au fil du temps et selon les disciplines sportives.
-Nous formulons l’hypothèse que les exigences physiques propres à chaque sport influencent fortement la morphologie moyenne des athlètes. Par exemple, nous nous attendons à ce que les disciplines de force (comme l’haltérophilie) présentent des athlètes plus lourds, tandis que les disciplines artistiques ou d’endurance (comme la gymnastique ou la course de fond) affichent des gabarits plus légers et/ou plus petits.
+Nous formulons l’hypothèse que les exigences physiques propres à chaque sport influencent fortement la morphologie moyenne des athlètes. Par exemple, nous nous attendons à ce que les disciplines de force (comme l’haltérophilie) présentent des athlètes plus lourds, tandis que les disciplines artistiques ou d’endurance (comme la gymnastique ou la course) affichent des gabarits plus légers et/ou plus petits.
 Nous supposons également que les standards physiques ont évolué au fil des décennies, en lien avec la professionnalisation croissante du sport et les avancées en matière de préparation physique.
 Pour tester ces hypothèses, nous allons visualiser l’évolution de la taille moyenne et du poids moyen des athlètes par discipline et par année, à l’aide de line graphs. Ces visualisations permettront d’identifier les tendances globales ainsi que les différences entre sports.
 
@@ -1266,6 +1271,55 @@ ggplot(df_evolution, aes(x = Year, y = mean_weight, color = Sport)) +
 ### Interprétation
 
 Les graphiques montrent comment la taille et le poids moyens des athlètes évoluent selon les sports, en lien avec les exigences propres à chaque discipline. Par exemple, les rameurs sont généralement plus grands et plus lourds, ce qui correspond à la puissance nécessaire dans leur sport. À l’inverse, les gymnastes sont plus petits et légers, ce qui leur permet d’avoir un bon équilibre et de réaliser des mouvements techniques, avec une légère diminution de leur taille au fil du temps. Les nageurs, quant à eux deviennent de plus en plus grands, mais leur poids reste modéré pour faciliter la glisse dans l’eau. Les cyclistes et les skieurs de fond ont des tailles et des poids moyens plutôt stables, car ils ont besoin d’un équilibre entre endurance et puissance. Enfin, les athlètes en général montrent des valeurs assez constantes, probablement lié à la diversité des épreuves dans l’athlétisme nécessitant d'avoir un physique "hybride". En revanche on ne peut pas distinguer de tendance générale sur l'évolution du poids et de la taille des athlètes de manière générale au fil du temps.
+
+Cependant cette analyse démographique soulève une question intéressante concernant la sélectivité physique dans certaines disciplines sportives. En effet, les méthodes de préparation physique étant de plus en plus poussées il est possible qu'un "physique type" soit désormais nécessaire pour atteindre le top niveau.
+
+### Question 2 : Certaines disciplines deviennent-elles de plus en plus sélectives physiquement au point d’exclure certains profils morphologiques ?
+
+Pour explorer cette question, nous pouvons formuler l'hypothèse suivante : si effectivement certaines disciplines deviennent de plus en plus sélectives physiquement, cela pourrait se traduire par une diminution de la variance de la taille et du poids des athlètes au fil du temps. Une variance plus faible indiquerait une uniformisation des profils physiques, suggérant une sélectivité accrue.
+
+Pour tester cette hypothèse, nous allons calculer la variance de la taille et du poids des athlètes pour chaque discipline et chaque année, puis visualiser ces variances à l'aide de line graphs.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Calcul de la variance de la taille et du poids par sport et par année
+df_variance <- df_top_sports %>%
+  group_by(Year, Sport) %>%
+  summarise(
+    variance_height = var(Height, na.rm = TRUE),
+    variance_weight = var(Weight, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Graphique : évolution de la variance de la taille
+ggplot(df_variance, aes(x = Year, y = variance_height, color = Sport)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Évolution de la variance de la taille des athlètes (6 disciplines principales)",
+    x = "Année",
+    y = "Variance de la taille (cm²)",
+    color = "Discipline"
+  ) +
+  theme_minimal()
+
+# Graphique : évolution de la variance du poids
+ggplot(df_variance, aes(x = Year, y = variance_weight, color = Sport)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Évolution de la variance du poids des athlètes (6 disciplines principales)",
+    x = "Année",
+    y = "Variance du poids (kg²)",
+    color = "Discipline"
+  ) +
+  theme_minimal()
+```
+
+### Interprétation
+
+Malgré une tendance générale à la hausse de la variance depuis 1950 pour ces six disciplines sportives, nous pouvons observer que la variance de la taille reste relativement faible, indiquant que les athlètes ont, en général, des tailles assez similaires au sein de chaque discipline. En revanche, pour le poids, la variance est non seulement plus élevée que pour la taille, mais certaines disciplines se distinguent par des variances encore plus prononcées, révélant une hétérogénéité plus marquée dans le poids des athlètes selon les sports.
+
+Ces différences peuvent s'expliquer par la diversité des rôles au sein des sports et par l'optimisation des caractéristiques physiques pour répondre aux exigences spécifiques de chaque discipline. Par exemple, en natation, bien que les nageurs aient des tailles relativement similaires pour minimiser la résistance dans l'eau, les variations de poids peuvent être plus prononcées. En effet, les nageurs de sprint peuvent avoir une composition corporelle plus musculaire pour des départs explosifs, tandis que les nageurs de fond peuvent avoir une composition plus légère pour favoriser l'endurance.
+
+Ainsi, bien que certaines disciplines montrent une uniformisation de la taille, la diversité des poids suggère que les sports ne sont pas nécessairement devenus plus sélectifs sur les morphologies, mais plutôt plus adaptatifs aux différentes spécialisations.
 
 ## 7. Analyse des villes hôtes
 
