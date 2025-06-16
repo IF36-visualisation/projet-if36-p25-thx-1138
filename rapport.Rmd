@@ -1374,9 +1374,73 @@ La carte met en évidence une concentration marquée des Jeux Olympiques dans le
 Les villes comme Paris, Londres ou Los Angeles apparaissent à plusieurs reprises, ce qui montre une tendance à réattribuer les Jeux à des villes déjà expérimentées. À l’inverse, l’Afrique est totalement absente, et l’Amérique du Sud n’est représentée que par Rio en 2016. Cela illustre un déséquilibre persistant, où les critères d’attribution favorisent les pays les plus riches et les mieux équipés, au détriment d’une véritable diversité géographique.
 Par ailleurs, cet aspect n'est pas sur le point de changer puisque les derniers jeux se sont déroulés à Paris et les prochains se dérouleront à Los Angeles.
 
-### Conclusion
+## Conclusion du projet : Analyse des Jeux Olympiques
 
-Cette analyse des Jeux Olympiques a permis de confirmer certaines hypothèses, notamment que le nombre d’épreuves dans des disciplines comme la natation ou le ski de fond favorise les athlètes multi-médaillés, et que la participation globale a fortement augmenté au fil du temps, malgré des baisses ponctuelles liées à des événements politiques ou économiques. L’effet du pays hôte apparaît plus complexe et moins systématiquement bénéfique qu’on pourrait le penser, certaines nations hôtes profitant davantage que d’autres, sans que cela ne garantisse toujours une hausse significative des médailles. Par ailleurs, l’idée d’une uniformisation stricte des profils physiques des athlètes est nuancée, puisque si la taille reste assez stable au sein des disciplines, la variance du poids reflète une diversité liée aux spécialisations. Enfin, la répartition géographique des villes hôtes confirme un déséquilibre marqué, avec une forte concentration dans les pays du Nord, liée à des facteurs économiques et logistiques. Ce travail montre ainsi que les Jeux Olympiques sont le produit d’interactions complexes entre les performances sportives, les évolutions historiques, les caractéristiques physiques, et les choix géopolitiques.
+Ce projet d'analyse des données olympiques, mené dans le cadre de l'UE IF36, nous a permis d'explorer plus d'un siècle de compétitions (1896-2020) et d'acquérir des compétences concrètes en data visualisation avec R. Le jeu de données, riche en informations démographiques, sportives et géopolitiques, a offert une opportunité unique d'identifier des tendances significatives.
+
+Apprentissages Clés et Observations sur le Jeu de Données :
+
+Nous avons confirmé plusieurs hypothèses et mis en lumière des nuances importantes :
+
+L'Effet Pays Hôte : Si l'accueil des Jeux est associé à un pic immédiat de médailles pour la plupart des nations (comme le montrent nos analyses des "Tendances avant et pendant l'accueil des JO"), cet avantage n'est pas uniforme. Il est souvent amplifié par la force sportive préexistante du pays organisateur (ex: États-Unis, Chine). L'idée d'un "boost" radical pour toutes les nations est à nuancer. L'impact à long terme ("Moyenne des médailles avant et après") révèle une amélioration pour beaucoup, mais de manière plus prononcée pour les pays dotés de structures sportives déjà robustes. Les nations moins établies peinent davantage à transformer cet élan ponctuel en performance durable, soulignant l'importance des politiques sportives continues au-delà de l'événement.
+
+Disparités et Évolutions : Les analyses sur les disparités de genre et l'évolution morphologique des athlètes (non détaillées ici mais partie intégrante du projet) ont permis de tracer des tendances sur la participation féminine croissante, ainsi que l'adaptation des physiques athlétiques aux exigences spécifiques des disciplines.
+
+Tendances Globales : L'étude des médaillés par pays, l'évolution de la participation, et l'impact des événements historiques (guerres, boycotts) a permis de brosser un tableau dynamique des Jeux, montrant leur adaptation constante aux contextes mondiaux.
+
+Difficultés Rencontrées :
+
+Ce projet n'a pas été sans défis :
+
+Qualité et Cohérence des Données : Malgré la richesse des datasets, des valeurs manquantes (ex: Age, Country_Code) et la nécessité d'intégrer des informations provenant de différentes sources (trois datasets Kaggle) ont exigé un travail rigoureux de nettoyage et de fusion.
+
+Comparabilité Temporelle : Les évolutions des règlements, l'introduction de nouvelles disciplines, ou la suppression d'anciennes, ainsi que les bouleversements géopolitiques (guerres mondiales, boycotts), ont complexifié la comparaison directe des performances sur plus d'un siècle. Il a été crucial de prendre en compte ces biais potentiels dans l'interprétation.
+
+Complexité de l'Effet Hôte : Démêler l'avantage intrinsèque d'une puissance sportive de l'effet direct et indirect de l'accueil des Jeux a nécessité une analyse fine des séries temporelles et une interprétation nuancée des résultats.
+
+Pistes pour Étendre ou Élargir le Travail :
+
+Pour aller plus loin, plusieurs axes pourraient être explorés :
+
+Analyse Socio-économique Approfondie : Intégrer des données macroéconomiques (PIB, dépenses publiques en sport) pour quantifier la corrélation avec les médailles et évaluer le retour sur investissement de l'accueil des JO, notamment pour les pays aux structures moins développées.
+
+Impact Environnemental et Climatique : Étudier l'influence de facteurs géographiques ou environnementaux (ex: altitude pour certains sports) sur les performances, comme mentionné dans notre plan d'analyse.
+
+Analyse Qualitative des Politiques Post-Jeux : Mener une étude comparative des stratégies nationales de gestion de l'héritage olympique pour identifier les facteurs de succès ou d'échec à long terme.
+
+Prédiction des Médailles : Développer des modèles prédictifs du nombre de médailles par pays ou par athlète, en intégrant un plus large éventail de variables.
+
+Analyse des Sports d'Hiver : Étendre l'ensemble de ces analyses aux Jeux Olympiques d'hiver pour identifier des spécificités propres à cette saison.
+
+Mot de la Fin par les Membres du Groupe :
+
+
+Cheikh : "Ce projet, étant l'un de mes premiers en visualisation de données, m'a permis de solidifier ma maîtrise de la manipulation de données complexes avec dplyr et de la visualisation avancée avec ggplot2. Au-delà de la simple génération de graphiques, j'ai vraiment appris à 'faire parler les données' en les explorant en profondeur pour nuancer des effets statistiques comme celui du pays hôte. J'ai pu aller plus loin dans mes compétences en R et en visualisation, comprenant comment structurer une analyse pour dépasser les moyennes et observer des tendances individuelles. J'aurais aimé approfondir l'analyse de l'impact socio-économique réel des Jeux sur la population locale, au-delà des médailles"
+
+Nom2 : ""
+
+Nom3 : ""
+
+Nom4 : ""
+
+
+
+
+
+## Annexe : Répartition du travail au sein du groupe
+
+Ce projet a été réalisé en collaboration, avec une répartition des tâches et des responsabilités pour chaque section d'analyse. Voici la description de la répartition du travail :
+
+Cheikh :
+
+Partie Responsable : Analyse de l'impact du pays hôte sur les performances (y compris l'évolution immédiate et à long terme des médailles).
+
+Tâches Spécifiques : Développement des hypothèses, exploration des données spécifiques à l'effet pays hôte, création des graphiques d'évolution avant/pendant/après, interprétation détaillée des nuances de cet effet.
+
+Nom2:
+
+
+Chaque membre a également contribué à la phase initiale de collecte et de compréhension des jeux de données, au nettoyage général des données, à l'introduction ainsi qu'à la relecture et à la validation des analyses des autres sections. La collaboration s'est effectuée via des partages de code et des discussions.
 
 
 
