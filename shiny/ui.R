@@ -9,7 +9,9 @@ ui <- dashboardPage(
     sidebarMenu(id = "sidebar",  # important pour savoir quel tab est actif
                 menuItem("Disparités de genre", tabName = "gender_tab", icon = icon("venus-mars")),
                 menuItem("Premières participations", tabName = "map_tab", icon = icon("globe")),
-                menuItem("Classement des athlètes", tabName = "ranking_tab", icon = icon("trophy"))
+                menuItem("Classement des athlètes", tabName = "ranking_tab", icon = icon("trophy")),
+                menuItem("Évolution morphologique", tabName = "morpho_tab", icon = icon("ruler"))
+                
     ),
     
     # Filtres visibles uniquement dans l'onglet "Disparités de genre"
@@ -39,7 +41,14 @@ ui <- dashboardPage(
         choiceValues = c("Gold", "Silver", "Bronze"),
         selected = c("Gold", "Silver", "Bronze")
       )
+    ),
+    
+    conditionalPanel(
+      condition = "input.sidebar === 'morpho_tab'",
+      selectInput("sports_morpho", "Sélectionner les sports :", 
+                  choices = NULL, multiple = TRUE, selected = NULL)
     )
+    
   ),
   
   
@@ -81,7 +90,29 @@ ui <- dashboardPage(
             plotOutput("athlete_ranking")
           )
         )
+      ),
+      tabItem(
+        tabName = "morpho_tab",
+        fluidRow(
+          box(
+            title = "Taille moyenne des athlètes",
+            status = "success",
+            solidHeader = TRUE,
+            width = 12,
+            plotOutput("height_trend")
+          )
+        ),
+        fluidRow(
+          box(
+            title = "Poids moyen des athlètes",
+            status = "danger",
+            solidHeader = TRUE,
+            width = 12,
+            plotOutput("weight_trend")
+          )
+        )
       )
+      
       
       
     )

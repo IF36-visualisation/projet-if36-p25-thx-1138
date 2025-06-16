@@ -11,6 +11,13 @@ server <- function(input, output, session) {
   # --- Chargement des données générales ---
   athletes <- read_csv("../data/Olympics Althlete Events Analysis/athlete_events.csv", show_col_types = FALSE)
   
+  # --- Remplir dynamiquement les sports pour le selectInput ---
+  observe({
+    updateSelectInput(session, "sports_morpho", 
+                      choices = sort(unique(na.omit(athletes$Sport))),
+                      selected = c("Athletics", "Swimming"))
+  })
+  
   # --- Disparités de genre ---
   medalists <- athletes %>%
     filter(!is.na(Medal) & !is.na(Age))
@@ -163,4 +170,45 @@ server <- function(input, output, session) {
         plot.margin = margin(0, 0, 0, -15, "pt")
       )
   })
+  
+  # --- Taille moyenne des athlètes ---
+  output$height_trend <- renderPlot({
+    req(input$sports_morpho)
+    
+    avg_height <- athletes %>%
+      filter(!is.na(Height), Sport %in% input$sports_morpho) %>%
+      group_by(Year, Sport) %>%
+      summarise(mean_height = mean(Height), .groups = "drop")
+    
+    ggplot(avg_height, aes(x = Year, y = mean_height, color = Sport)) +
+      geom_line(size = 1) +
+      labs(
+        title = "Évolution de la taille moyenne des athlètes",
+        x = "Année",
+        y = "Taille moyenne (cm)"
+      ) +
+      theme_minimal()
+  })
+  
+  
+  # --- Poids moyen des athlètes ---
+  output$weight_trend <- renderPlot({
+    req(input$sports_morpho)
+    
+    avg_weight <- athletes %>%
+      filter(!is.na(Weight), Sport %in% input$sports_morpho) %>%
+      group_by(Year, Sport) %>%
+      summarise(mean_weight = mean(Weight), .groups = "drop")
+    
+    ggplot(avg_weight, aes(x = Year, y = mean_weight, color = Sport)) +
+      geom_line(size = 1) +
+      labs(
+        title = "Évolution du poids moyen des athlètes",
+        x = "Année",
+        y = "Poids moyen (kg)"
+      ) +
+      theme_minimal()
+  })
+  
+  
 }
