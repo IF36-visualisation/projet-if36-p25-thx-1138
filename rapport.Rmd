@@ -482,7 +482,7 @@ que l'avantage du pays hôte est déterminant dans les moments décisifs
 des compétitions
 
 
-### Question 3: Évolution des médailles entre 4 ans avant et l'année hôte
+### Question 3: Évolution des médailles entre 3 éditions avant et l'année hôte
 
 ```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # 1. Chargement des données et calcul du total des médailles
@@ -575,7 +575,7 @@ Si des pays comme la Chine (Beijing, 2008), les États-Unis (Atlanta, 1996) ou l
 
 Cette observation nous conduit à une question essentielle pour la suite : si l'effet "boost" immédiat est plus nuancé et souvent lié à une force sportive préexistante, quelle est l'influence de l'accueil des Jeux sur le long terme ? Nous allons maintenant explorer si les investissements et l'enthousiasme générés entraînent une performance accrue durablement, et si cela concerne particulièrement les pays qui n'étaient pas des "géants" des médailles avant d'être hôtes, cherchant ainsi des seuils ou des schémas de croissance post-olympique.
 
-### Question 4:  Influence après avoir été hôte (comparaison des moyennes avant et après); impacte sur le long terme
+### Question 4:  Influence après avoir été hôte (comparaison des moyennes avant et après): impacte sur le long terme
 ```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # --- Étape 3 : Influence après avoir été hôte (comparaison des moyennes avant et après) ---
 
