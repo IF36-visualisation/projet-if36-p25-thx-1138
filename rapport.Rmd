@@ -1374,3 +1374,10 @@ La carte met en évidence une concentration marquée des Jeux Olympiques dans le
 Les villes comme Paris, Londres ou Los Angeles apparaissent à plusieurs reprises, ce qui montre une tendance à réattribuer les Jeux à des villes déjà expérimentées. À l’inverse, l’Afrique est totalement absente, et l’Amérique du Sud n’est représentée que par Rio en 2016. Cela illustre un déséquilibre persistant, où les critères d’attribution favorisent les pays les plus riches et les mieux équipés, au détriment d’une véritable diversité géographique.
 Par ailleurs, cet aspect n'est pas sur le point de changer puisque les derniers jeux se sont déroulés à Paris et les prochains se dérouleront à Los Angeles.
 
+### Conclusion
+
+Cette analyse des Jeux Olympiques a permis de confirmer certaines hypothèses, notamment que le nombre d’épreuves dans des disciplines comme la natation ou le ski de fond favorise les athlètes multi-médaillés, et que la participation globale a fortement augmenté au fil du temps, malgré des baisses ponctuelles liées à des événements politiques ou économiques. L’effet du pays hôte apparaît plus complexe et moins systématiquement bénéfique qu’on pourrait le penser, certaines nations hôtes profitant davantage que d’autres, sans que cela ne garantisse toujours une hausse significative des médailles. Par ailleurs, l’idée d’une uniformisation stricte des profils physiques des athlètes est nuancée, puisque si la taille reste assez stable au sein des disciplines, la variance du poids reflète une diversité liée aux spécialisations. Enfin, la répartition géographique des villes hôtes confirme un déséquilibre marqué, avec une forte concentration dans les pays du Nord, liée à des facteurs économiques et logistiques. Ce travail montre ainsi que les Jeux Olympiques sont le produit d’interactions complexes entre les performances sportives, les évolutions historiques, les caractéristiques physiques, et les choix géopolitiques.
+
+
+
+
