@@ -24,7 +24,7 @@ ui <- dashboardPage(
       )
     ),
     
-    # Filtres visibles uniquement dans l'onglet "Premières participations"
+    # Filtres visibles uniquement dans l'onglet "Premières participations des pays"
     conditionalPanel(
       condition = "input.sidebar === 'map_tab'",
       sliderInput("year", "Année :", min = 1896, max = 2016, value = 1896, step = 4, sep = ""),
@@ -74,7 +74,7 @@ ui <- dashboardPage(
         tabName = "ranking_tab",
         fluidRow(
           box(
-            title = "Top 20 des athlètes les plus médaillés (été)",
+            title = "Top 20 des athlètes les plus médaillés JO d'été",
             status = "warning",
             solidHeader = TRUE,
             width = 12,
