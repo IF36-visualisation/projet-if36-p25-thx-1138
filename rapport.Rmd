@@ -1417,7 +1417,7 @@ Mot de la Fin par les Membres du Groupe :
 
 Cheikh : "Ce projet, étant l'un de mes premiers en visualisation de données, m'a permis de solidifier ma maîtrise de la manipulation de données complexes avec dplyr et de la visualisation avancée avec ggplot2. Au-delà de la simple génération de graphiques, j'ai vraiment appris à 'faire parler les données' en les explorant en profondeur pour nuancer des effets statistiques comme celui du pays hôte. J'ai pu aller plus loin dans mes compétences en R et en visualisation, comprenant comment structurer une analyse pour dépasser les moyennes et observer des tendances individuelles. J'aurais aimé approfondir l'analyse de l'impact socio-économique réel des Jeux sur la population locale, au-delà des médailles"
 
-Nom2 : ""
+Guillaume : "Ce projet m’a permis de découvrir concrètement l’analyse de données et la visualisation mais aussi de me familiariser avec le langage R. J’ai apprécié le transfert d'un de nos graphiques sur Tableau, qui montre bien la puissance d’un outil interactif de visualisation. En revanche, j’aurais aimé pouvoir travailler avec un dataset plus riche sur les athlètes pour approfondir les analyses des performances individuelles"
 
 Nom3 : ""
 
@@ -1433,12 +1433,19 @@ Ce projet a été réalisé en collaboration, avec une répartition des tâches 
 
 Cheikh :
 
-Partie Responsable : Analyse de l'impact du pays hôte sur les performances (y compris l'évolution immédiate et à long terme des médailles).
+  - Partie Responsable : Analyse de l'impact du pays hôte sur les performances (y compris l'évolution immédiate et à long terme des médailles).
+  - Tâches Spécifiques : Développement des hypothèses, exploration des données spécifiques à l'effet pays hôte, création des graphiques d'évolution avant/pendant/après, interprétation détaillée des nuances de cet effet.
 
-Tâches Spécifiques : Développement des hypothèses, exploration des données spécifiques à l'effet pays hôte, création des graphiques d'évolution avant/pendant/après, interprétation détaillée des nuances de cet effet.
+Guillaume :
 
-Nom2:
+  - Analyse de la corrélation entre l'âge des athlètes et leur performance dans certaines disciplines.
+  - Réalisation de l’analyse morphologique (taille, poids, évolution dans le temps).
+  - Étude sur l’organisation des Jeux Olympiques par ville hôte.
+  - Intégration des graphiques correspondants dans l'application Shiny, permettant une exploration interactive du poids, de la taille et de l’âge moyen des médaillés par sport.
 
+Nom3:
+
+Nom4 :
 
 Chaque membre a également contribué à la phase initiale de collecte et de compréhension des jeux de données, au nettoyage général des données, à l'introduction ainsi qu'à la relecture et à la validation des analyses des autres sections. La collaboration s'est effectuée via des partages de code et des discussions.
 
