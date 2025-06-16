@@ -18,6 +18,14 @@ server <- function(input, output, session) {
                       selected = c("Athletics", "Swimming"))
   })
   
+  # --- Age moyen des médaillés dans chaque sport ---
+  observe({
+    updateSelectInput(session, "age_sport", 
+                      choices = sort(unique(na.omit(athletes$Sport))),
+                      selected = "Athletics")
+  })
+  
+  
   # --- Disparités de genre ---
   medalists <- athletes %>%
     filter(!is.na(Medal) & !is.na(Age))
@@ -209,6 +217,27 @@ server <- function(input, output, session) {
       ) +
       theme_minimal()
   })
+  
+  # --- Age moyen des médaillés dans chaque sport ---
+  output$age_trend <- renderPlot({
+    req(input$age_sport)
+    
+    age_data <- athletes %>%
+      filter(!is.na(Age), !is.na(Medal), Sport == input$age_sport) %>%
+      group_by(Year) %>%
+      summarise(mean_age = mean(Age), .groups = "drop")
+    
+    ggplot(age_data, aes(x = Year, y = mean_age)) +
+      geom_line(color = "#2c3e50", size = 1) +
+      geom_point(color = "#2980b9", size = 2) +
+      labs(
+        title = paste("Âge moyen des médaillés en", input$age_sport),
+        x = "Année",
+        y = "Âge moyen"
+      ) +
+      theme_minimal()
+  })
+  
   
   
 }

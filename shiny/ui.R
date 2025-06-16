@@ -10,7 +10,8 @@ ui <- dashboardPage(
                 menuItem("Disparités de genre", tabName = "gender_tab", icon = icon("venus-mars")),
                 menuItem("Premières participations", tabName = "map_tab", icon = icon("globe")),
                 menuItem("Classement des athlètes", tabName = "ranking_tab", icon = icon("trophy")),
-                menuItem("Évolution morphologique", tabName = "morpho_tab", icon = icon("ruler"))
+                menuItem("Évolution morphologique", tabName = "morpho_tab", icon = icon("ruler")),
+                menuItem("Âge des médaillés", tabName = "age_tab", icon = icon("user-clock"))
                 
     ),
     
@@ -47,7 +48,13 @@ ui <- dashboardPage(
       condition = "input.sidebar === 'morpho_tab'",
       selectInput("sports_morpho", "Sélectionner les sports :", 
                   choices = NULL, multiple = TRUE, selected = NULL)
+    ),
+    
+    conditionalPanel(
+      condition = "input.sidebar === 'age_tab'",
+      selectInput("age_sport", "Choisir un sport :", choices = NULL)
     )
+    
     
   ),
   
@@ -109,6 +116,18 @@ ui <- dashboardPage(
             solidHeader = TRUE,
             width = 12,
             plotOutput("weight_trend")
+          )
+        )
+      ),
+      tabItem(
+        tabName = "age_tab",
+        fluidRow(
+          box(
+            title = "Âge moyen des athlètes médaillés par année",
+            status = "primary",
+            solidHeader = TRUE,
+            width = 12,
+            plotOutput("age_trend")
           )
         )
       )
