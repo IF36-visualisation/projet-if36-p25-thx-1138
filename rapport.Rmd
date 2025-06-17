@@ -1402,7 +1402,7 @@ Cheikh : "Ce projet, étant l'un de mes premiers en visualisation de données, m
 
 Guillaume : "Ce projet m’a permis de découvrir concrètement l’analyse de données et la visualisation mais aussi de me familiariser avec le langage R. J’ai apprécié le transfert d'un de nos graphiques sur Tableau, qui montre bien la puissance d’un outil interactif de visualisation. En revanche, j’aurais aimé pouvoir travailler avec un dataset plus riche sur les athlètes pour approfondir les analyses des performances individuelles"
 
-Nom3 : ""
+Élia : "J'ai pu approfondir mes compétences en R et découvrir davantage le travail de la donnée. Apprendre par l'expérience à réaliser des graphiques simples, lisibles, et pertinents m'a été bénéfique et me resservira probablement à l'avenir. J'aurai apprécié disposer de plus de temps et de moyens pour documenter les éléments découverts par la dataviz avec des données historiques."
 
 Nom4 : ""
 
@@ -1426,7 +1426,10 @@ Guillaume :
   - Étude sur l’organisation des Jeux Olympiques par ville hôte.
   - Intégration des graphiques correspondants dans l'application Shiny, permettant une exploration interactive du poids, de la taille et de l’âge moyen des médaillés par sport.
 
-Nom3:
+Élia :
+
+- Mise en évidence et analyse des disparités de genre parmi les athlètes
+
 
 Nom4 :
 
