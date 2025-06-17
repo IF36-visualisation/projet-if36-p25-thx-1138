@@ -271,26 +271,14 @@ Voici les questions que nous souhaitons explorer à travers ces données :
 -   **Analyse morphologique** : Quelle est la répartition par
     taille et poids des athlètes au fil du temps et selon les
     disciplines ?
--   **Performance des pays** : Quels pays ont remporté le plus de
-    médailles au fil des ans ? Existe-t-il des tendances ou des périodes
-    de domination spécifiques ? Le nombre d'habitants est il corrélé
-    avec le nombre de médailles ? Y'a-t-il des pays qui ne sont
-    performant que dans une catégorie de sport (collectif, combat...) ?
 -   **Impact du pays hôte** : Un pays organisateur a-t-il un avantage en
     termes de performances et de médailles remportées lorsqu’il
     accueille les Jeux ? Comment évolue la performance des athlètes
     locaux par rapport aux éditions précédentes et suivantes ? Y'a il un
     impact géographique sur les performances des athlètes (exemple
     :altitude)
--   **Analyse des disciplines sportives** : Quels sports ont été les
-    plus compétitifs en termes de nombre de participants et de médailles
-    distribuées ?
 -   **Corrélations possibles** : Existe-t-il une corrélation entre l'âge
     des athlètes et leur performance dans certaines disciplines ?
--   **Nouveaux sports et épreuves** : Comment l'introduction de
-    nouvelles disciplines a-t-elle influencé la diversité des médaillés
-    et la participation globale ? Le nombre d'épreuve a-t-il augmenté au
-    cours du temps ?
 -   **Analyse des villes hôtes** : Y a-t-il une tendance géographique
     dans le choix des villes hôtes au fil des années ?
 -   **Performance individuelle** : Quels athlètes ont remporté le plus
@@ -298,13 +286,6 @@ Voici les questions que nous souhaitons explorer à travers ces données :
 -   **Disparités de genre** : Comment la participation et la performance
     des femmes aux Jeux Olympiques ont-elles évolué depuis leur
     introduction ?
--   **Effets des boycotts et des conflits** : Quels ont été les impacts
-    des boycotts et des guerres sur les Jeux Olympiques en termes de
-    participation et de performances des nations concernées ?
--   **Influence économique et politique** : Y a-t-il une relation entre
-    le niveau économique d’un pays et son nombre de médailles remportées
-    ? Les périodes de tensions politiques ou de crises économiques
-    ont-elles eu un impact sur la participation et les performances ?
 
 Pour répondre à ces questions, nous comparerons des variables telles que
 le nombre d'athlètes, le nombre de pays participants, le nombre de
@@ -482,7 +463,7 @@ que l'avantage du pays hôte est déterminant dans les moments décisifs
 des compétitions
 
 
-### Question 3: Évolution des médailles entre 4 ans avant et l'année hôte
+### Question 3: Évolution des médailles entre 3 éditions avant et l'année hôte
 
 ```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # 1. Chargement des données et calcul du total des médailles
@@ -567,18 +548,15 @@ ggplot(host_medal_trend_extended, aes(x = Phase, y = Medals, group = 1)) + # gro
 
 ### Interpretation
 
-Initialement, nous avions posé l'hypothèse que les pays hôtes remporteraient un plus grand nombre de médailles, notamment d'or, grâce au soutien du public, à la familiarité avec l'environnement et, potentiellement, à une légère influence sur l'arbitrage. Les observations générales ont confirmé que les pays hôtes remportent en moyenne un nombre de médailles significativement plus élevé.
+Nous avions initialement émis l'hypothèse que les pays hôtes remporteraient davantage de médailles, notamment d'or, grâce au soutien local et à la familiarité. Les observations générales confirment bien que les pays hôtes obtiennent en moyenne un nombre de médailles significativement plus élevé.
 
-Nuance de l'effet "boost" immédiat : Au-delà de la simple moyenne
-Cependant, cette moyenne générale peut être trompeuse. Le graphique de l'"Évolution des médailles totales des pays hôtes : Tendances avant et pendant l'accueil des JO" nous permet d'observer la performance individuelle de chaque pays hôte sur les trois éditions précédant l'accueil (12, 8 et 4 ans avant) et pendant l'année hôte. Cette granularité révèle une réalité plus complexe et nuance considérablement notre hypothèse initiale d'un "boost" systématique et toujours aussi prononcé.
+Cependant, une analyse plus fine de l'"Évolution des médailles totales des pays hôtes : Tendances avant et pendant l'accueil des JO" nuance cette moyenne. En examinant les trajectoires individuelles (12, 8 et 4 ans avant, puis l'année hôte), nous constatons que l'idée d'un "boost" systématique et toujours prononcé est plus complexe.
 
-En effet, si un certain nombre de pays comme la Chine (Beijing, 2008), Etats-unis (Atlanta, 1996) ou le Japon (Tokyo, 2020) affichent clairement un pic de médailles durant l'année où ils ont été hôtes, pour d'autres, cette augmentation est moins spectaculaire ou s'inscrit dans une tendance déjà haussière. Il est crucial de noter que plusieurs pays hôtes étaient déjà des puissances sportives reconnues avant même d'accueillir les Jeux, remportant un nombre élevé de médailles lors des éditions précédentes (par exemple, les États-Unis, la Grande-Bretagne en 1908, ou l'Union Soviétique). Dans ces cas, le fait d'être hôte amplifie probablement une force déjà existante, plutôt que de créer une performance exceptionnelle à partir de rien.
+Si des pays comme la Chine (Beijing, 2008), les États-Unis (Atlanta, 1996) ou le Japon (Tokyo, 2020) affichent un pic clair lors de l'année hôte, beaucoup de ces nations étaient déjà des puissances sportives reconnues, gagnant un nombre élevé de médailles précédemment. Dans ces cas, l'accueil amplifie probablement une force existante plutôt que de créer une performance exceptionnelle ex nihilo. De plus, le gain de médailles l'année hôte n'est pas toujours majeur ou systématique pour tous les pays. L'effet pays hôte, perçu comme un "coup de pouce" garanti pour chaque nation, n'est donc pas aussi uniforme que l'hypothèse initiale le suggérait. Il agit plutôt comme un facteur pouvant accentuer une performance ou créer un avantage dans des contextes spécifiques, mais sa manifestation varie grandement.
 
-De plus, en observant les trajectoires individuelles, nous constatons que l'effet de "pic immédiat" n'est pas aussi universellement prononcé qu'on pourrait le croire. Si l'on compare strictement le nombre de médailles l'année hôte à la performance 4 ans avant, on constate que le gain n'est pas toujours majeur ou systématique. Cela remet en question l'idée qu'être hôte garantit un bond spectaculaire en termes de médailles pour tous les pays, indépendamment de leur niveau sportif initial. L'effet pays hôte, tel que perçu comme un "coup de pouce" garanti et uniforme, n'est donc pas forcément ce que l'on attendait. Il s'agit plutôt d'un facteur qui peut accentuer une performance existante ou créer un avantage dans des contextes spécifiques, mais sa manifestation varie grandement.
+Cette observation nous conduit à une question essentielle pour la suite : si l'effet "boost" immédiat est plus nuancé et souvent lié à une force sportive préexistante, quelle est l'influence de l'accueil des Jeux sur le long terme ? Nous allons maintenant explorer si les investissements et l'enthousiasme générés entraînent une performance accrue durablement, et si cela concerne particulièrement les pays qui n'étaient pas des "géants" des médailles avant d'être hôtes, cherchant ainsi des seuils ou des schémas de croissance post-olympique.
 
-Cette observation nous amène à une question essentielle pour la suite de notre analyse : si l'effet "boost" immédiat est plus nuancé que prévu et souvent lié à une force sportive préexistante, quelle est l'influence de l'accueil des Jeux sur le long terme ? Les investissements massifs en infrastructures, les programmes de développement sportif et l'enthousiasme généré par l'événement parviennent-ils à créer une tendance haussière durable pour le pays hôte ? Nous allons désormais explorer si cet héritage olympique se traduit par une performance sportive accrue sur les éditions futures, et si cela concerne particulièrement les pays qui n'étaient pas forcément des "géants" des médailles avant d'accueillir l'événement. L'objectif sera de déceler d'éventuels seuils ou des schémas de croissance post-olympique.
-
-### Question 4:  Influence après avoir été hôte (comparaison des moyennes avant et après); impacte sur le long terme
+### Question 4:  Influence après avoir été hôte (comparaison des moyennes avant et après): impacte sur le long terme
 ```{r fig.width=10, fig.height=6, echo=FALSE, message=FALSE, warning=FALSE}
 # --- Étape 3 : Influence après avoir été hôte (comparaison des moyennes avant et après) ---
 
@@ -680,31 +658,19 @@ ggplot(long_term_impact_pivot, aes(x = Host_Event_Label, y = Average_Medals, fil
 
 
 ### Interpretation
-Nos analyses précédentes (Question 3) ont montré que le "boost" immédiat de médailles durant l'année où un pays est hôte n'est pas toujours aussi universel ou spectaculaire que l'on aurait pu l'imaginer. En observant les trajectoires individuelles, nous avons constaté que ce pic dépendait souvent de la force sportive préexistante du pays et que le gain n'était pas systématiquement majeur ou radical pour toutes les nations. Cette observation nous a poussé à explorer si l'impact des Jeux se manifestait plutôt sur le long terme.
+Le graphique "Impact à long terme de l'accueil des JO : Moyenne des médailles avant et après" offre une perspective cruciale sur la durabilité de "l'effet pays hôte". Il compare la moyenne du nombre total de médailles remportées par un pays sur les quatre éditions olympiques précédant son statut d'hôte (moyenne "Avant Hôte") et sur les quatre éditions suivant cet événement (moyenne "Après Hôte").
 
-2. La confirmation d'un effet à long terme, mais fortement lié aux structures existantes :
+En examinant ce graphique, nous observons un impact positif à long terme sur le nombre de médailles pour de nombreuses nations après avoir été hôtes. L'investissement dans les infrastructures, la modernisation des équipements et l'élan national généré par l'organisation des Jeux semblent, dans l'ensemble, contribuer à maintenir, voire à améliorer, le niveau sportif des pays sur la durée.
 
-En examinant le graphique actuel, nous pouvons globalement observer que, pour de nombreux pays, la moyenne des médailles après avoir été hôte est effectivement supérieure à leur moyenne avant d'avoir accueilli les Jeux. Cela suggère qu'il y a bien un impact positif à long terme pour une majorité des nations organisatrices. L'investissement dans les infrastructures, la modernisation des équipements et l'élan national généré par l'organisation des Jeux semblent, dans l'ensemble, contribuer à maintenir, voire à améliorer, le niveau sportif des pays sur la durée.
+Cependant, la nuance cruciale réside dans le profil des bénéficiaires : ce sont majoritairement les nations qui possédaient déjà des structures sportives robustes et bien établies avant les Jeux qui parviennent à capitaliser sur cet événement pour accroître durablement leur performance.
 
-Cependant, la nuance cruciale réside dans le profil des pays qui bénéficient le plus de cet avantage durable. Le graphique met en lumière que ce sont majoritairement les nations qui possédaient déjà des structures sportives robustes et bien établies avant d'accueillir les Jeux qui parviennent à capitaliser sur cet événement pour maintenir ou accroître leur performance à long terme.
+Poursuite de la Croissance pour les "Grands" : Des exemples comme la Chine (Beijing, 2008) ou les États-Unis (Los Angeles, 1984) illustrent comment des superpuissances sportives tirent parti des JO pour amplifier un succès déjà enraciné grâce à des programmes structurés et des investissements continus.
 
-Poursuite de la Croissance pour les "Grands" : Des exemples flagrants sont la Chine (Beijing, 2008), qui passe d'une moyenne de 56.2 à 83 médailles après l'accueil, ou les États-Unis (Los Angeles, 1984) avec une augmentation de 70 à 98.9 médailles. Ces pays étaient déjà des superpuissances sportives avec des programmes nationaux très structurés, des investissements continus dans le sport de haut niveau, et des politiques de détection et de formation des talents bien rodées. L'accueil des JO a pu leur fournir un catalyseur, une opportunité de moderniser et d'optimiser davantage leurs infrastructures et leurs programmes, amplifiant ainsi un succès déjà enraciné.
+Un Impact Plus Modéré pour les Nations Moins Établies : Pour des pays comme la France (Paris, 1900 et 1924), le Canada (Montréal, 1976), ou la Belgique (Anvers, 1920), la moyenne des médailles après l'accueil est souvent similaire, voire inférieure. L'investissement ponctuel n'a souvent pas suffi à créer une amélioration structurelle durable pour des nations aux structures sportives moins développées, même si les infrastructures peuvent bénéficier au sport de masse.
 
-Un Impact Plus Modéré pour les Nations Moins Établies : Pour d'autres pays, comme la France (Paris, 1900 et 1924), le Canada (Montréal, 1976), ou la Belgique (Anvers, 1920), la moyenne des médailles après l'accueil est très similaire, voire parfois légèrement inférieure, à celle d'avant. Cela indique que pour les nations qui n'avaient pas nécessairement des structures sportives d'élite aussi développées, l'investissement massif ponctuel lié à l'organisation des Jeux n'a pas suffi à créer une amélioration structurelle et durable des performances sportives au niveau élite. Les infrastructures construites peuvent servir à la population et au sport de masse, mais cela ne se traduit pas automatiquement par une augmentation significative du nombre de médailles olympiques à long terme.
+Les recherches sur l'héritage olympique confirment que l'impact à long terme est complexe et dépend moins de l'événement lui-même que de la capacité du pays à transformer cet élan en une stratégie sportive nationale durable. Cela inclut la qualité des structures préexistantes, l'investissement stratégique post-Jeux et des politiques sportives cohérentes.
 
-3. Facteurs Clés de la Durabilité (Confirmé par les recherches) :
-
-Les recherches et études sur l'héritage olympique (par exemple, celles menées par le CIO ou des institutions universitaires) confirment ce constat : l'impact à long terme des Jeux est complexe et dépend moins de l'événement lui-même que de la capacité du pays à transformer cet élan en une stratégie sportive nationale durable.
-
-Qualité des Structures Préexistantes : Un système sportif national fort, incluant des fédérations bien organisées, des centres d'entraînement performants, et des programmes de développement des jeunes talents, est un facteur déterminant.
-
-Investissement Stratégique Post-Jeux : La manière dont les infrastructures et les fonds sont gérés après les Jeux est cruciale. Une réaffectation intelligente et un entretien continu des installations sont nécessaires.
-
-Politiques Sportives Cohérentes : Les pays qui intègrent l'héritage olympique dans des politiques sportives nationales cohérentes et durables (développement de la base, soutien continu aux athlètes d'élite) ont de meilleures chances de voir une amélioration à long terme.
-
-Contexte Économique et Social : La capacité d'un pays à capitaliser sur l'élan des Jeux est également influencée par sa situation économique, sa stabilité politique et l'engagement général de sa population dans le sport.
-
-En conclusion, si l'accueil des Jeux Olympiques peut générer un pic de performance immédiat, l'impact sur la performance sportive à long terme est bien réel pour de nombreux pays, mais il est fortement modulé par leur niveau de développement structurel et leurs capacités d'investissement continu dans le sport de haut niveau. Ce défi de transformer un événement ponctuel en un bénéfice sportif durable est principalement relevé par les nations qui étaient déjà des forces sportives, capables de capitaliser sur l'élan olympique.
+En conclusion, si l'accueil des Jeux Olympiques peut générer un élan immédiat, l'impact sur la performance sportive à long terme est conditionné par le niveau de développement structurel et la capacité d'investissement continu. Les nations déjà fortes semblent mieux aptes à transformer cet événement ponctuel en un bénéfice sportif durable.
 
 ## 2. Existe-t-il une corrélation entre l'âge des athlètes et leur performance dans certaines disciplines
 
@@ -767,6 +733,8 @@ ggplot(age_top_bottom, aes(x = reorder(Sport, Mean_Age), y = Mean_Age)) +
     plot.subtitle = element_text(hjust = 0.5)
   )
 ```
+
+(La version interactive de ce graphique est présente sur shiny app afin de visualiser la moyenne pour différents sports)
 
 ### Interprétation
 
@@ -1215,7 +1183,7 @@ Certains pics dans le nombre de pays correspondent à des périodes historiques 
 Dans cette section, nous nous intéressons aux caractéristiques physiques des athlètes olympiques, plus précisément à l’évolution de leur taille et de leur poids au fil du temps et selon les disciplines sportives.
 Nous formulons l’hypothèse que les exigences physiques propres à chaque sport influencent fortement la morphologie moyenne des athlètes. Par exemple, nous nous attendons à ce que les disciplines de force (comme l’haltérophilie) présentent des athlètes plus lourds, tandis que les disciplines artistiques ou d’endurance (comme la gymnastique ou la course) affichent des gabarits plus légers et/ou plus petits.
 Nous supposons également que les standards physiques ont évolué au fil des décennies, en lien avec la professionnalisation croissante du sport et les avancées en matière de préparation physique.
-Pour tester ces hypothèses, nous allons visualiser l’évolution de la taille moyenne et du poids moyen des athlètes par discipline et par année, à l’aide de line graphs. Ces visualisations permettront d’identifier les tendances globales ainsi que les différences entre sports.
+Pour tester ces hypothèses, nous allons visualiser l’évolution de la taille moyenne et du poids moyen des athlètes par discipline et par année, à l’aide de line graphs. Ces visualisations permettront d’identifier les tendances globales ainsi que les différences entre sports. (Les versions interactives de ces graphiques sont disponibles sur shiny app afin de visualiser les tendances pour différents sports)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Chargement des données
@@ -1388,4 +1356,82 @@ La carte met en évidence une concentration marquée des Jeux Olympiques dans le
 
 Les villes comme Paris, Londres ou Los Angeles apparaissent à plusieurs reprises, ce qui montre une tendance à réattribuer les Jeux à des villes déjà expérimentées. À l’inverse, l’Afrique est totalement absente, et l’Amérique du Sud n’est représentée que par Rio en 2016. Cela illustre un déséquilibre persistant, où les critères d’attribution favorisent les pays les plus riches et les mieux équipés, au détriment d’une véritable diversité géographique.
 Par ailleurs, cet aspect n'est pas sur le point de changer puisque les derniers jeux se sont déroulés à Paris et les prochains se dérouleront à Los Angeles.
+
+## Conclusion du projet : Analyse des Jeux Olympiques
+
+Ce projet d'analyse des données olympiques, mené dans le cadre de l'UE IF36, nous a permis d'explorer plus d'un siècle de compétitions (1896-2020) et d'acquérir des compétences concrètes en data visualisation avec R. Le jeu de données, riche en informations démographiques, sportives et géopolitiques, a offert une opportunité unique d'identifier des tendances significatives.
+
+Apprentissages Clés et Observations sur le Jeu de Données :
+
+Nous avons confirmé plusieurs hypothèses et mis en lumière des nuances importantes :
+
+L'Effet Pays Hôte : Si l'accueil des Jeux est associé à un pic immédiat de médailles pour la plupart des nations (comme le montrent nos analyses des "Tendances avant et pendant l'accueil des JO"), cet avantage n'est pas uniforme. Il est souvent amplifié par la force sportive préexistante du pays organisateur (ex: États-Unis, Chine). L'idée d'un "boost" radical pour toutes les nations est à nuancer. L'impact à long terme ("Moyenne des médailles avant et après") révèle une amélioration pour beaucoup, mais de manière plus prononcée pour les pays dotés de structures sportives déjà robustes. Les nations moins établies peinent davantage à transformer cet élan ponctuel en performance durable, soulignant l'importance des politiques sportives continues au-delà de l'événement.
+
+Disparités et Évolutions : Les analyses sur les disparités de genre et l'évolution morphologique des athlètes (non détaillées ici mais partie intégrante du projet) ont permis de tracer des tendances sur la participation féminine croissante, ainsi que l'adaptation des physiques athlétiques aux exigences spécifiques des disciplines.
+
+Tendances Globales : L'étude des médaillés par pays, l'évolution de la participation, et l'impact des événements historiques (guerres, boycotts) a permis de brosser un tableau dynamique des Jeux, montrant leur adaptation constante aux contextes mondiaux.
+
+Difficultés Rencontrées :
+
+Ce projet n'a pas été sans défis :
+
+Qualité et Cohérence des Données : Malgré la richesse des datasets, des valeurs manquantes (ex: Age, Country_Code) et la nécessité d'intégrer des informations provenant de différentes sources (trois datasets Kaggle) ont exigé un travail rigoureux de nettoyage et de fusion.
+
+Comparabilité Temporelle : Les évolutions des règlements, l'introduction de nouvelles disciplines, ou la suppression d'anciennes, ainsi que les bouleversements géopolitiques (guerres mondiales, boycotts), ont complexifié la comparaison directe des performances sur plus d'un siècle. Il a été crucial de prendre en compte ces biais potentiels dans l'interprétation.
+
+Complexité de l'Effet Hôte : Démêler l'avantage intrinsèque d'une puissance sportive de l'effet direct et indirect de l'accueil des Jeux a nécessité une analyse fine des séries temporelles et une interprétation nuancée des résultats.
+
+Pistes pour Étendre ou Élargir le Travail :
+
+Pour aller plus loin, plusieurs axes pourraient être explorés :
+
+Analyse Socio-économique Approfondie : Intégrer des données macroéconomiques (PIB, dépenses publiques en sport) pour quantifier la corrélation avec les médailles et évaluer le retour sur investissement de l'accueil des JO, notamment pour les pays aux structures moins développées.
+
+Impact Environnemental et Climatique : Étudier l'influence de facteurs géographiques ou environnementaux (ex: altitude pour certains sports) sur les performances, comme mentionné dans notre plan d'analyse.
+
+Analyse Qualitative des Politiques Post-Jeux : Mener une étude comparative des stratégies nationales de gestion de l'héritage olympique pour identifier les facteurs de succès ou d'échec à long terme.
+
+Prédiction des Médailles : Développer des modèles prédictifs du nombre de médailles par pays ou par athlète, en intégrant un plus large éventail de variables.
+
+Analyse des Sports d'Hiver : Étendre l'ensemble de ces analyses aux Jeux Olympiques d'hiver pour identifier des spécificités propres à cette saison.
+
+Mot de la Fin par les Membres du Groupe :
+
+
+Cheikh : "Ce projet, étant l'un de mes premiers en visualisation de données, m'a permis de solidifier ma maîtrise de la manipulation de données complexes avec dplyr et de la visualisation avancée avec ggplot2. Au-delà de la simple génération de graphiques, j'ai vraiment appris à 'faire parler les données' en les explorant en profondeur pour nuancer des effets statistiques comme celui du pays hôte. J'ai pu aller plus loin dans mes compétences en R et en visualisation, comprenant comment structurer une analyse pour dépasser les moyennes et observer des tendances individuelles. J'aurais aimé approfondir l'analyse de l'impact socio-économique réel des Jeux sur la population locale, au-delà des médailles"
+
+Guillaume : "Ce projet m’a permis de découvrir concrètement l’analyse de données et la visualisation mais aussi de me familiariser avec le langage R. J’ai apprécié le transfert d'un de nos graphiques sur Tableau, qui montre bien la puissance d’un outil interactif de visualisation. En revanche, j’aurais aimé pouvoir travailler avec un dataset plus riche sur les athlètes pour approfondir les analyses des performances individuelles"
+
+Nom3 : ""
+
+Nom4 : ""
+
+
+
+
+
+## Annexe : Répartition du travail au sein du groupe
+
+Ce projet a été réalisé en collaboration, avec une répartition des tâches et des responsabilités pour chaque section d'analyse. Voici la description de la répartition du travail :
+
+Cheikh :
+
+  - Partie Responsable : Analyse de l'impact du pays hôte sur les performances (y compris l'évolution immédiate et à long terme des médailles).
+  - Tâches Spécifiques : Développement des hypothèses, exploration des données spécifiques à l'effet pays hôte, création des graphiques d'évolution avant/pendant/après, interprétation détaillée des nuances de cet effet.
+
+Guillaume :
+
+  - Analyse de la corrélation entre l'âge des athlètes et leur performance dans certaines disciplines.
+  - Réalisation de l’analyse morphologique (taille, poids, évolution dans le temps).
+  - Étude sur l’organisation des Jeux Olympiques par ville hôte.
+  - Intégration des graphiques correspondants dans l'application Shiny, permettant une exploration interactive du poids, de la taille et de l’âge moyen des médaillés par sport.
+
+Nom3:
+
+Nom4 :
+
+Chaque membre a également contribué à la phase initiale de collecte et de compréhension des jeux de données, au nettoyage général des données, à l'introduction ainsi qu'à la relecture et à la validation des analyses des autres sections. La collaboration s'est effectuée via des partages de code et des discussions.
+
+
+
 
