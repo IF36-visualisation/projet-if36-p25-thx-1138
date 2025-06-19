@@ -896,6 +896,7 @@ Nous cherchons à comprendre quels sont les athlètes les plus titrés de l’hi
 Pour y répondre, nous utiliserons deux types de visualisations :
 - Un graphique en barres comparant les athlètes les plus titrés dans les Jeux d'été et d'hiver, avec une mise en évidence de leurs disciplines respectives.
 - Un nuage de points représentant la distribution dans le temps des athlètes ayant obtenu le plus de médailles, afin d'observer leur répartition historique et potentiellement dégager une tendance chronologique
+- De plus un graphique interactif est disponnible dans shinny 
 
 ```{r fig.width=8, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
 # Lecture des données été
@@ -1120,6 +1121,8 @@ L’évolution du nombre de participants aux Jeux Olympiques d’été est globa
 - 1980 (Moscou) : Ce fut l’année du boycott massif mené par les États-Unis et plusieurs de leurs alliés, en protestation contre l’invasion soviétique de l’Afghanistan. Ce boycott a provoqué une baisse importante du nombre de participants, surtout des pays occidentaux.
 
 On remarque une évolution similaire pour les jeux d'hivers
+
+Une carte interactive présentant l'évolution des pays participant au JO est disponnible en shinny
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1404,7 +1407,7 @@ Guillaume : "Ce projet m’a permis de découvrir concrètement l’analyse de d
 
 Élia : "J'ai pu approfondir mes compétences en R et découvrir davantage le travail de la donnée. Apprendre par l'expérience à réaliser des graphiques simples, lisibles, et pertinents m'a été bénéfique et me resservira probablement à l'avenir. J'aurai apprécié disposer de plus de temps et de moyens pour documenter les éléments découverts par la dataviz avec des données historiques."
 
-Nom4 : ""
+Hippolyte : "Ce projet m’a permis d’améliorer mes compétences en R, notamment avec Shiny, un outil que j’ai trouvé très puissant pour créer des visualisations interactives. J’ai beaucoup apprécié le sujet des Jeux Olympiques, riche en données et en enjeux. Explorer la participation, les performances ou l’effet pays hôte a été très intéressant. J’aurais toutefois aimé me concentrer davantage sur certains sports pour approfondir l’analyse."
 
 
 
@@ -1428,10 +1431,13 @@ Guillaume :
 
 Élia :
 
-- Mise en évidence et analyse des disparités de genre parmi les athlètes
+  - Mise en évidence et analyse des disparités de genre parmi les athlètes
 
 
-Nom4 :
+Hippolyte :
+  -Analyse de la performance individuelle des athlètes
+  -Étude sur l'évolution de la participation aux Jeux Olympiques
+  -Réalisation de deux graphiques Shiny : une carte interactive de la participation aux JO ainsi qu'un bar chart des médailles
 
 Chaque membre a également contribué à la phase initiale de collecte et de compréhension des jeux de données, au nettoyage général des données, à l'introduction ainsi qu'à la relecture et à la validation des analyses des autres sections. La collaboration s'est effectuée via des partages de code et des discussions.
 
