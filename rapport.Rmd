@@ -1360,86 +1360,85 @@ La carte met en évidence une concentration marquée des Jeux Olympiques dans le
 Les villes comme Paris, Londres ou Los Angeles apparaissent à plusieurs reprises, ce qui montre une tendance à réattribuer les Jeux à des villes déjà expérimentées. À l’inverse, l’Afrique est totalement absente, et l’Amérique du Sud n’est représentée que par Rio en 2016. Cela illustre un déséquilibre persistant, où les critères d’attribution favorisent les pays les plus riches et les mieux équipés, au détriment d’une véritable diversité géographique.
 Par ailleurs, cet aspect n'est pas sur le point de changer puisque les derniers jeux se sont déroulés à Paris et les prochains se dérouleront à Los Angeles.
 
-## Conclusion du projet : Analyse des Jeux Olympiques
+# Conclusion
 
-Ce projet d'analyse des données olympiques, mené dans le cadre de l'UE IF36, nous a permis d'explorer plus d'un siècle de compétitions (1896-2020) et d'acquérir des compétences concrètes en data visualisation avec R. Le jeu de données, riche en informations démographiques, sportives et géopolitiques, a offert une opportunité unique d'identifier des tendances significatives.
+Ce projet d’analyse des **Jeux Olympiques (1896-2020)**, mené dans le cadre de l’UE **IF36 – Visualiser des données**, nous a permis d’explorer un siècle de compétitions à travers la **data visualisation avec R**. Grâce à un jeu de données riche en informations démographiques, sportives et géopolitiques, nous avons pu identifier des **tendances majeures** et mettre en lumière des **phénomènes complexes** comme l'effet pays hôte ou les disparités de genre.
 
-Apprentissages Clés et Observations sur le Jeu de Données :
+## Apports de l’analyse
 
-Nous avons confirmé plusieurs hypothèses et mis en lumière des nuances importantes :
+### L’effet pays hôte
 
-L'Effet Pays Hôte : Si l'accueil des Jeux est associé à un pic immédiat de médailles pour la plupart des nations (comme le montrent nos analyses des "Tendances avant et pendant l'accueil des JO"), cet avantage n'est pas uniforme. Il est souvent amplifié par la force sportive préexistante du pays organisateur (ex: États-Unis, Chine). L'idée d'un "boost" radical pour toutes les nations est à nuancer. L'impact à long terme ("Moyenne des médailles avant et après") révèle une amélioration pour beaucoup, mais de manière plus prononcée pour les pays dotés de structures sportives déjà robustes. Les nations moins établies peinent davantage à transformer cet élan ponctuel en performance durable, soulignant l'importance des politiques sportives continues au-delà de l'événement.
+L’un des résultats les plus marquants concerne l’impact du **pays hôte sur le nombre de médailles**. Nous avons observé un pic significatif de performances lors de l’accueil des Jeux, notamment pour les puissances sportives comme les **États-Unis** ou la **Chine**. Cependant, cet effet est **à nuancer** : il dépend fortement des infrastructures sportives préexistantes. Les **nations moins développées sportivement** ne tirent qu’un bénéfice limité, confirmant que l’effet pays hôte ne suffit pas en soi à garantir des performances durables.
 
-Disparités et Évolutions : Les analyses sur les disparités de genre et l'évolution morphologique des athlètes (non détaillées ici mais partie intégrante du projet) ont permis de tracer des tendances sur la participation féminine croissante, ainsi que l'adaptation des physiques athlétiques aux exigences spécifiques des disciplines.
+### Disparités et évolutions
 
-Tendances Globales : L'étude des médaillés par pays, l'évolution de la participation, et l'impact des événements historiques (guerres, boycotts) a permis de brosser un tableau dynamique des Jeux, montrant leur adaptation constante aux contextes mondiaux.
+L’analyse des **disparités de genre** et de l’**évolution morphologique** des athlètes a mis en évidence une **augmentation progressive de la participation féminine**, ainsi qu’une adaptation des caractéristiques physiques (taille, poids) aux exigences spécifiques des disciplines. Ces tendances soulignent l’évolution constante des standards de performance.
 
-Difficultés Rencontrées :
+### Contexte historique et tendances globales
 
-Ce projet n'a pas été sans défis :
+Nos visualisations ont aussi permis de relier certaines **fluctuations de participation et de médailles** à des événements historiques majeurs tels que les **guerres mondiales** ou les **boycotts**, révélant la forte **dimension politique** des Jeux.
 
-Qualité et Cohérence des Données : Malgré la richesse des datasets, des valeurs manquantes (ex: Age, Country_Code) et la nécessité d'intégrer des informations provenant de différentes sources (trois datasets Kaggle) ont exigé un travail rigoureux de nettoyage et de fusion.
+## Difficultés rencontrées
 
-Comparabilité Temporelle : Les évolutions des règlements, l'introduction de nouvelles disciplines, ou la suppression d'anciennes, ainsi que les bouleversements géopolitiques (guerres mondiales, boycotts), ont complexifié la comparaison directe des performances sur plus d'un siècle. Il a été crucial de prendre en compte ces biais potentiels dans l'interprétation.
+### Problèmes de données
 
-Complexité de l'Effet Hôte : Démêler l'avantage intrinsèque d'une puissance sportive de l'effet direct et indirect de l'accueil des Jeux a nécessité une analyse fine des séries temporelles et une interprétation nuancée des résultats.
+Les jeux de données, bien que complets, présentaient des **valeurs manquantes** (notamment sur l’âge ou la nationalité des athlètes), nécessitant un **nettoyage rigoureux**. La fusion des trois datasets issus de Kaggle a également représenté un défi technique important.
 
-Pistes pour Étendre ou Élargir le Travail :
+### Comparabilité temporelle
 
-Pour aller plus loin, plusieurs axes pourraient être explorés :
+Comparer les performances sur plus de 100 ans est délicat, en raison de nombreux **changements de règles**, **ajouts de disciplines** ou **conflits géopolitiques**. Ces facteurs introduisent des **biais d’interprétation**, qu’il a fallu prendre en compte dans l’analyse.
 
-Analyse Socio-économique Approfondie : Intégrer des données macroéconomiques (PIB, dépenses publiques en sport) pour quantifier la corrélation avec les médailles et évaluer le retour sur investissement de l'accueil des JO, notamment pour les pays aux structures moins développées.
+### Complexité de l’effet pays hôte
 
-Impact Environnemental et Climatique : Étudier l'influence de facteurs géographiques ou environnementaux (ex: altitude pour certains sports) sur les performances, comme mentionné dans notre plan d'analyse.
+Il a été nécessaire de **distinguer l’effet direct** de l’accueil des Jeux (logistique, motivation nationale) de la **puissance sportive structurelle** déjà en place dans le pays hôte.
 
-Analyse Qualitative des Politiques Post-Jeux : Mener une étude comparative des stratégies nationales de gestion de l'héritage olympique pour identifier les facteurs de succès ou d'échec à long terme.
+## Perspectives
 
-Prédiction des Médailles : Développer des modèles prédictifs du nombre de médailles par pays ou par athlète, en intégrant un plus large éventail de variables.
+- **Analyse socio-économique** : intégrer des données comme le **PIB**, les **investissements publics dans le sport** ou les **retombées économiques** de l’accueil des Jeux permettrait de mieux comprendre les dynamiques de performance.
+- **Facteurs environnementaux** : étudier l’impact du **climat**, de **l’altitude**, ou d'autres facteurs géographiques sur les performances.
+- **Étude qualitative post-JO** : comparer les **politiques sportives post-olympiques** pour comprendre pourquoi certains pays transforment mieux que d'autres leur expérience en **succès durables**.
+- **Modélisation prédictive** : développer des **modèles de prédiction du nombre de médailles**, par pays ou par discipline.
+- **Analyse des Jeux d’hiver** : reproduire ce travail sur les Jeux Olympiques d’hiver pour mettre en évidence des **spécificités saisonnières**.
 
-Analyse des Sports d'Hiver : Étendre l'ensemble de ces analyses aux Jeux Olympiques d'hiver pour identifier des spécificités propres à cette saison.
+## Mots de la fin
 
-Mot de la Fin par les Membres du Groupe :
+**Cheikh** :  
+> « Ce projet, étant l'un de mes premiers en visualisation de données, m'a permis de solidifier ma maîtrise de la manipulation de données complexes avec dplyr et de la visualisation avancée avec ggplot2. J'ai vraiment appris à faire parler les données. »
+
+**Guillaume** :  
+> « Ce projet m’a permis de découvrir concrètement l’analyse de données et de me familiariser avec le langage R. J’ai apprécié le transfert d’un graphique sur Tableau. »
+
+**Élia** :  
+> « J’ai pu approfondir mes compétences en R et apprendre à créer des visualisations claires et pertinentes. J’aurais aimé documenter davantage les résultats avec des données historiques. »
+
+**Hippolyte** :  
+> « Ce projet m’a permis d’améliorer mes compétences en R, notamment avec Shiny. Le sujet des JO était passionnant et j’aurais aimé aller plus loin sur certains sports spécifiques. »
+
+# Annexe – Répartition du travail
+
+Ce projet a été réalisé en collaboration, avec une répartition des tâches claire :
+
+### Cheikh :
+- Analyse de l'effet pays hôte (avant/pendant/après)
+- Développement des hypothèses
+- Visualisations des évolutions de médailles
+
+### Guillaume :
+- Analyse âge vs performance
+- Étude morphologique (taille, poids)
+- Graphiques interactifs dans Shiny (taille, poids, âge moyen)
+
+### Élia :
+- Analyse des disparités de genre
+
+### Hippolyte :
+- Analyse des performances individuelles
+- Étude de la participation historique
+- Visualisations Shiny (carte interactive, bar chart médailles)
+
+Chaque membre a également contribué à la **collecte, au nettoyage**, ainsi qu’à la **relecture croisée des analyses**.
 
 
-Cheikh : "Ce projet, étant l'un de mes premiers en visualisation de données, m'a permis de solidifier ma maîtrise de la manipulation de données complexes avec dplyr et de la visualisation avancée avec ggplot2. Au-delà de la simple génération de graphiques, j'ai vraiment appris à 'faire parler les données' en les explorant en profondeur pour nuancer des effets statistiques comme celui du pays hôte. J'ai pu aller plus loin dans mes compétences en R et en visualisation, comprenant comment structurer une analyse pour dépasser les moyennes et observer des tendances individuelles. J'aurais aimé approfondir l'analyse de l'impact socio-économique réel des Jeux sur la population locale, au-delà des médailles"
-
-Guillaume : "Ce projet m’a permis de découvrir concrètement l’analyse de données et la visualisation mais aussi de me familiariser avec le langage R. J’ai apprécié le transfert d'un de nos graphiques sur Tableau, qui montre bien la puissance d’un outil interactif de visualisation. En revanche, j’aurais aimé pouvoir travailler avec un dataset plus riche sur les athlètes pour approfondir les analyses des performances individuelles"
-
-Élia : "J'ai pu approfondir mes compétences en R et découvrir davantage le travail de la donnée. Apprendre par l'expérience à réaliser des graphiques simples, lisibles, et pertinents m'a été bénéfique et me resservira probablement à l'avenir. J'aurai apprécié disposer de plus de temps et de moyens pour documenter les éléments découverts par la dataviz avec des données historiques."
-
-Hippolyte : "Ce projet m’a permis d’améliorer mes compétences en R, notamment avec Shiny, un outil que j’ai trouvé très puissant pour créer des visualisations interactives. J’ai beaucoup apprécié le sujet des Jeux Olympiques, riche en données et en enjeux. Explorer la participation, les performances ou l’effet pays hôte a été très intéressant. J’aurais toutefois aimé me concentrer davantage sur certains sports pour approfondir l’analyse."
-
-
-
-
-
-## Annexe : Répartition du travail au sein du groupe
-
-Ce projet a été réalisé en collaboration, avec une répartition des tâches et des responsabilités pour chaque section d'analyse. Voici la description de la répartition du travail :
-
-Cheikh :
-
-  - Partie Responsable : Analyse de l'impact du pays hôte sur les performances (y compris l'évolution immédiate et à long terme des médailles).
-  - Tâches Spécifiques : Développement des hypothèses, exploration des données spécifiques à l'effet pays hôte, création des graphiques d'évolution avant/pendant/après, interprétation détaillée des nuances de cet effet.
-
-Guillaume :
-
-  - Analyse de la corrélation entre l'âge des athlètes et leur performance dans certaines disciplines.
-  - Réalisation de l’analyse morphologique (taille, poids, évolution dans le temps).
-  - Étude sur l’organisation des Jeux Olympiques par ville hôte.
-  - Intégration des graphiques correspondants dans l'application Shiny, permettant une exploration interactive du poids, de la taille et de l’âge moyen des médaillés par sport.
-
-Élia :
-
-  - Mise en évidence et analyse des disparités de genre parmi les athlètes
-
-
-Hippolyte :
-  -Analyse de la performance individuelle des athlètes
-  -Étude sur l'évolution de la participation aux Jeux Olympiques
-  -Réalisation de deux graphiques Shiny : une carte interactive de la participation aux JO ainsi qu'un bar chart des médailles
-
-Chaque membre a également contribué à la phase initiale de collecte et de compréhension des jeux de données, au nettoyage général des données, à l'introduction ainsi qu'à la relecture et à la validation des analyses des autres sections. La collaboration s'est effectuée via des partages de code et des discussions.
 
 
 
